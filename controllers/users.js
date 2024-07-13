@@ -31,8 +31,9 @@ usersRouter.post("/", async (request, response) => {
   });
 
   const savedUser = await newUser.save();
+
   const token = jwt.sign({ id: savedUser.id }, process.env.ACCES_TOKEN_SECRET, {
-    expiresIn: "1d",
+    expiresIn: "1m",
   });
 
   const transporter = nodemailer.createTransport({
@@ -48,8 +49,8 @@ usersRouter.post("/", async (request, response) => {
   await transporter.sendMail({
     from: process.env.EMAIL_USER, // sender address
     to: savedUser.email, // list of receivers
-    subject: "Autenticacion de usuario no responder", // Subject line
-    html: `<a href="${PAGE_URL}/verify/${token}">Correo de confirmacion</a>`, // html body
+    subject: "Autenticacion de usuario, no responder este coreo", // Subject line
+    html: `<a href="${PAGE_URL}/verify/${savedUser.id}/${token}">Correo de confirmacion</a>`, // html body
   });
 
   return response
@@ -63,6 +64,30 @@ usersRouter.patch("/:token", async (request, response) => {
     const decodedToken = jwt.verify(token, process.env.ACCES_TOKEN_SECRET);
     console.log(decodedToken);
   } catch (error) {
+    const token = jwt.sign(
+      { id: savedUser.id },
+      process.env.ACCES_TOKEN_SECRET,
+      {
+        expiresIn: "1d",
+      }
+    );
+
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true, // Use `true` for port 465, `false` for all other ports
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER, // sender address
+      to: savedUser.email, // list of receivers
+      subject: "Autenticacion de usuario, no responder este coreo", // Subject line
+      html: `<a href="${PAGE_URL}/verify/${token}">Correo de confirmacion</a>`, // html body
+    });
     return response.status(400).json({ error: "El link ya expiro" });
   }
 });
