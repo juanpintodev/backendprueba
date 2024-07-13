@@ -4,7 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>Signup</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <title>Login</title>
   </head>
   <body>
     <nav id="navbar" class="fixed top-0 right-0 left-0 bg-teal-700 h-16"></nav>
@@ -20,7 +21,7 @@
       </div>
       <form
         id="form"
-        class="flex flex-col gap-4 bg-teal-200 p-4 shadow-lg rounded-lg text-md lg:w-2/4"
+        class="flex flex-col gap-4 bg-teal-200 p-4 shadow-lg rounded-lg w-full md:w-3/5 text-md lg:w-2/4"
       >
         <div class="flex flex-col gap-1">
           <label for="email-input" class="font-bold"

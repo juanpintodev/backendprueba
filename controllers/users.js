@@ -33,7 +33,7 @@ usersRouter.post("/", async (request, response) => {
   const savedUser = await newUser.save();
 
   const token = jwt.sign({ id: savedUser.id }, process.env.ACCES_TOKEN_SECRET, {
-    expiresIn: "1m",
+    expiresIn: "1d",
   });
 
   const transporter = nodemailer.createTransport({
@@ -61,8 +61,10 @@ usersRouter.post("/", async (request, response) => {
 usersRouter.patch("/:id/:token", async (request, response) => {
   try {
     const token = request.params.token;
-    const decodedToken = jwt.verify(id, token, process.env.ACCES_TOKEN_SECRET);
-    console.log(decodedToken);
+    const decodedToken = jwt.verify(token, process.env.ACCES_TOKEN_SECRET);
+    const id = decodedToken.id;
+    await User.findByIdAndUpdate(id, { verified: true });
+    return response.sendStatus(200);
   } catch (error) {
     //encontrar el email del usuario
     const id = request.params.id;
@@ -70,7 +72,7 @@ usersRouter.patch("/:id/:token", async (request, response) => {
 
     // firmar el nuevo token
     const token = jwt.sign({ id: id }, process.env.ACCES_TOKEN_SECRET, {
-      expiresIn: "1m",
+      expiresIn: "1d",
     });
 
     // enviar el email
@@ -88,7 +90,7 @@ usersRouter.patch("/:id/:token", async (request, response) => {
       from: process.env.EMAIL_USER, // sender address
       to: email, // list of receivers
       subject: "Autenticacion de usuario, no responder este coreo", // Subject line
-      html: `<a href="${PAGE_URL}/verify/${token}">Correo de confirmacion</a>`, // html body
+      html: `<a href="${PAGE_URL}/verify/${id}/${token}">Correo de confirmacion</a>`, // html body
     });
     return response.status(400).json({
       error:
