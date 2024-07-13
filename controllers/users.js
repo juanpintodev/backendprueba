@@ -58,20 +58,22 @@ usersRouter.post("/", async (request, response) => {
     .json("Usuario creado. Se envio un correo de confirmacion");
 });
 
-usersRouter.patch("/:token", async (request, response) => {
+usersRouter.patch("/:id/:token", async (request, response) => {
   try {
     const token = request.params.token;
-    const decodedToken = jwt.verify(token, process.env.ACCES_TOKEN_SECRET);
+    const decodedToken = jwt.verify(id, token, process.env.ACCES_TOKEN_SECRET);
     console.log(decodedToken);
   } catch (error) {
-    const token = jwt.sign(
-      { id: savedUser.id },
-      process.env.ACCES_TOKEN_SECRET,
-      {
-        expiresIn: "1d",
-      }
-    );
+    //encontrar el email del usuario
+    const id = request.params.id;
+    const { email } = await User.findById(id);
 
+    // firmar el nuevo token
+    const token = jwt.sign({ id: id }, process.env.ACCES_TOKEN_SECRET, {
+      expiresIn: "1m",
+    });
+
+    // enviar el email
     const transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
       port: 465,
@@ -84,11 +86,14 @@ usersRouter.patch("/:token", async (request, response) => {
 
     await transporter.sendMail({
       from: process.env.EMAIL_USER, // sender address
-      to: savedUser.email, // list of receivers
+      to: email, // list of receivers
       subject: "Autenticacion de usuario, no responder este coreo", // Subject line
       html: `<a href="${PAGE_URL}/verify/${token}">Correo de confirmacion</a>`, // html body
     });
-    return response.status(400).json({ error: "El link ya expiro" });
+    return response.status(400).json({
+      error:
+        "El link ya expiro. Se ha enviado un nuevo link de verificacion a su correo",
+    });
   }
 });
 
