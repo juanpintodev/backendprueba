@@ -27,7 +27,7 @@ usersRouter.post("/", async (request, response) => {
   const newUser = new User({
     name,
     email,
-    password,
+    passwordHash,
   });
 
   const savedUser = await newUser.save();
@@ -49,7 +49,7 @@ usersRouter.post("/", async (request, response) => {
   await transporter.sendMail({
     from: process.env.EMAIL_USER, // sender address
     to: savedUser.email, // list of receivers
-    subject: "Autenticacion de usuario, no responder este coreo", // Subject line
+    subject: "Autenticacion de usuario, no responder este correo", // Subject line
     html: `<a href="${PAGE_URL}/verify/${savedUser.id}/${token}">Correo de confirmacion</a>`, // html body
   });
 
@@ -69,7 +69,6 @@ usersRouter.patch("/:id/:token", async (request, response) => {
     //encontrar el email del usuario
     const id = request.params.id;
     const { email } = await User.findById(id);
-
     // firmar el nuevo token
     const token = jwt.sign({ id: id }, process.env.ACCES_TOKEN_SECRET, {
       expiresIn: "1d",

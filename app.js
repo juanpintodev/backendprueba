@@ -7,6 +7,7 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
 const usersRouter = require("./controllers/users");
+const loginRouter = require("./controllers/login");
 
 (async () => {
   try {
@@ -31,5 +32,6 @@ app.use("/verify/:id/:token", express.static(path.resolve("views", "verify")));
 app.use(morgan("tiny"));
 // Backend routes
 app.use("/api/users", usersRouter);
+app.use("/api/login", loginRouter);
 
 module.exports = app;
