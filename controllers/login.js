@@ -8,26 +8,35 @@ loginRouter.post("/", async (request, response) => {
   const userExist = await User.findOne({ email });
 
   if (!userExist) {
-    return response.status(400).json("Email o contraseña invalido");
+    return response.status(400).json({ error: "Email o contraseña invalido" });
   }
   if (!userExist.verified) {
-    return response.status(400).json("Tu email no ha sido verificado");
+    return response
+      .status(400)
+      .json({ error: "Tu email no ha sido verificado" });
   }
 
   const isCorrect = await bcrypt.compare(password, userExist.passwordHash);
 
   if (!isCorrect) {
-    return response.status(400).json("Email o contraseña invalido");
+    return response.status(400).json({ error: "Email o contraseña invalido" });
   }
 
   const userForToken = {
     id: userExist.id,
   };
 
-  const accesToken = jwt.sign(userForToken, process.env.ACCES_TOKEN_SECRET, {
+  const accessToken = jwt.sign(userForToken, process.env.ACCES_TOKEN_SECRET, {
     expiresIn: "1d",
   });
-  console.log(accesToken);
+
+  response.cookie("accessToken", accessToken, {
+    expiresIn: new Date(Date.now() + 1000 * 60 * 60 * 24 * 1),
+    secure: process.env.NODE_ENV === "production",
+    httpOnly: true,
+  });
+
+  return response.sendStatus(200);
   // return response
   //   .status(201)
   //   .json("Usuario creado. Se envio un correo de confirmacion");

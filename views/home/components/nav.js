@@ -67,6 +67,7 @@ const createNavSignup = () => {
       </div>
       </div>`;
 };
+
 const createNavLogin = () => {
   navbar.innerHTML = `
     <div
@@ -100,12 +101,47 @@ const createNavLogin = () => {
       </div>`;
 };
 
+const createNavDashboard = () => {
+  navbar.innerHTML = `
+    <div
+        class="max-w-7xl bg-teal-700 h-16 mx-auto flex items-center px-4 justify-between">
+        <p class="font-bold text-md text-white">Logo</p>
+
+        <!-- mobile version -->
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="size-12 md:hidden text-white cursor-pointer p-2 hover:bg-teal-800 rounded-lg">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+          />
+        </svg>
+
+      <!-- desktop version -->
+      <div class="hidden md:flex gap-4">
+      <button id="close-btn" class="transition ease-in-out text-white font-bold hover:bg-teal-800 py-2 px-4 rounded-lg">Cerrar sesion</button>
+      </div>
+
+      <!-- mobile menu -->
+      <div class="bg-slate-800/60 fixed top-16 right-0 left-0 bottom-0 justify-center items-center flex-col gap-5 hidden">
+      <button id="close-btn" class="transition ease-in-out text-white font-bold hover:bg-teal-800 py-2 px-4 rounded-lg">Cerrar sesion</button>
+      </div>
+      </div>`;
+};
+
 if (window.location.pathname === "/") {
   createNavHome();
 } else if (window.location.pathname === "/signup/") {
   createNavSignup();
 } else if (window.location.pathname === "/login/") {
   createNavLogin();
+} else if (window.location.pathname === "/dashboard/") {
+  createNavDashboard();
 }
 
 const navBtn = navbar.children[0].children[1];
@@ -135,5 +171,17 @@ navBtn.addEventListener("click", (e) => {
     d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
     />
     `;
+  }
+});
+
+const closeBtnDesktop = navbar.children[0].children[2].children[0];
+const closeBtnMobile = navbar.children[0].children[3].children[0];
+
+closeBtnDesktop.addEventListener("click", async (e) => {
+  try {
+    await axios.get("/api/logout");
+    window.location.pathname = "/login";
+  } catch (error) {
+    console.log(error);
   }
 });

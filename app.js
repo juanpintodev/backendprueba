@@ -8,6 +8,9 @@ const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
 const usersRouter = require("./controllers/users");
 const loginRouter = require("./controllers/login");
+const logoutRouter = require("./controllers/logout");
+const tasksRouter = require("./controllers/tasks");
+const { userExtractor } = require("./middlewares/auth");
 
 (async () => {
   try {
@@ -25,6 +28,7 @@ app.use(cookieParser());
 app.use("/", express.static(path.resolve("views", "home")));
 app.use("/signup", express.static(path.resolve("views", "signup")));
 app.use("/login", express.static(path.resolve("views", "login")));
+app.use("/dashboard", express.static(path.resolve("views", "dashboard")));
 app.use("/images", express.static(path.resolve("images")));
 app.use("/components", express.static(path.resolve("views", "components")));
 app.use("/verify/:id/:token", express.static(path.resolve("views", "verify")));
@@ -33,5 +37,7 @@ app.use(morgan("tiny"));
 // Backend routes
 app.use("/api/users", usersRouter);
 app.use("/api/login", loginRouter);
+app.use("/api/logout", logoutRouter);
+app.use("/api/tasks", userExtractor, tasksRouter);
 
 module.exports = app;

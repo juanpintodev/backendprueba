@@ -8,6 +8,12 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  tasks: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Task",
+    },
+  ],
 });
 
 userSchema.set("toJSON", {
