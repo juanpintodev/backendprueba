@@ -11,7 +11,7 @@ form.addEventListener("submit", async (e) => {
       password: passwordInput.value,
     };
     await axios.post("/api/login", user);
-    window.location.pathname = "/dashboard";
+    window.location.pathname = "/dashboard2";
   } catch (error) {
     console.log(error);
     errorText.innerHTML = error.response.data.error;

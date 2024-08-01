@@ -8,10 +8,16 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  tasks: [
+  // tasks: [
+  //   {
+  //     type: mongoose.Schema.Types.ObjectId,
+  //     ref: "Task",
+  //   },
+  // ],
+  registrocontable: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Task",
+      ref: "Registrocontable",
     },
   ],
 });

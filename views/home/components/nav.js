@@ -3,7 +3,7 @@ const navbar = document.querySelector("#navbar");
 const createNavHome = () => {
   navbar.innerHTML = `
     <div
-        class="max-w-7xl bg-teal-700 h-16 mx-auto flex items-center px-4 justify-between">
+        class="max-w-7xl bg-gray-800 h-16 mx-auto flex items-center px-4 justify-between">
         <p class="font-bold text-md text-white">Logo</p>
 
         <!-- mobile version -->
@@ -13,7 +13,7 @@ const createNavHome = () => {
           viewBox="0 0 24 24"
           stroke-width="1.5"
           stroke="currentColor"
-          class="size-12 md:hidden text-white cursor-pointer p-2 hover:bg-teal-800 rounded-lg">
+          class="size-12 md:hidden text-white cursor-pointer p-2 hover:bg-gray-600 rounded-lg">
           <path
             stroke-linecap="round"
             stroke-linejoin="round"
@@ -23,13 +23,13 @@ const createNavHome = () => {
 
       <!-- desktop version -->
       <div class="hidden md:flex gap-4">
-      <a href="/login/" class="transition ease-in-out text-white font-bold hover:bg-teal-800 py-2 px-4 rounded-lg">login</a>
+      <a href="/login/" class="transition ease-in-out text-white font-bold hover:bg-gray-600 py-2 px-4 rounded-lg">login</a>
       <a href="/signup/" class="transition ease-in-out text-white font-bold bg-slate-400 hover:bg-slate-400 py-2 px-4 rounded-lg">Signup</a>
       </div>
 
       <!-- mobile menu -->
       <div class="bg-slate-800/60 fixed top-16 right-0 left-0 bottom-0 justify-center items-center flex-col gap-5 hidden">
-      <a href="/login/" class="transition ease-in-out text-white font-bold hover:bg-teal-800 py-2 px-4 rounded-lg">login</a>
+      <a href="/login/" class="transition ease-in-out text-white font-bold hover:bg-gray-600 py-2 px-4 rounded-lg">login</a>
       <a href="/signup/" class="transition ease-in-out text-black font-bold bg-slate-300 hover:bg-slate-400 py-2 px-4 rounded-lg">Signup</a>
       </div>
       </div>`;
@@ -38,7 +38,7 @@ const createNavHome = () => {
 const createNavSignup = () => {
   navbar.innerHTML = `
     <div
-        class="max-w-7xl bg-teal-700 h-16 mx-auto flex items-center px-4 justify-between">
+        class="max-w-7xl bg-gray-800 h-16 mx-auto flex items-center px-4 justify-between">
         <p class="font-bold text-md text-white">Logo</p>
 
         <!-- mobile version -->
@@ -48,7 +48,7 @@ const createNavSignup = () => {
           viewBox="0 0 24 24"
           stroke-width="1.5"
           stroke="currentColor"
-          class="size-12 md:hidden text-white cursor-pointer p-2 hover:bg-teal-800 rounded-lg">
+          class="size-12 md:hidden text-white cursor-pointer p-2 hover:bg-gray-600 rounded-lg">
           <path
             stroke-linecap="round"
             stroke-linejoin="round"
@@ -58,12 +58,12 @@ const createNavSignup = () => {
 
       <!-- desktop version -->
       <div class="hidden md:flex gap-4">
-      <a href="/login/" class="transition ease-in-out text-white font-bold hover:bg-teal-800 py-2 px-4 rounded-lg">login</a>
+      <a href="/login/" class="transition ease-in-out text-white font-bold hover:bg-gray-600 py-2 px-4 rounded-lg">login</a>
       </div>
 
       <!-- mobile menu -->
       <div class="bg-slate-800/60 fixed top-16 right-0 left-0 bottom-0 justify-center items-center flex-col gap-5 hidden">
-      <a href="/login/" class="transition ease-in-out text-white font-bold hover:bg-teal-800 py-2 px-4 rounded-lg">login</a>
+      <a href="/login/" class="transition ease-in-out text-white font-bold hover:bg-gary-600 py-2 px-4 rounded-lg">login</a>
       </div>
       </div>`;
 };
@@ -71,7 +71,7 @@ const createNavSignup = () => {
 const createNavLogin = () => {
   navbar.innerHTML = `
     <div
-        class="max-w-7xl bg-teal-700 h-16 mx-auto flex items-center px-4 justify-between">
+        class="max-w-7xl bg-gray-800 h-16 mx-auto flex items-center px-4 justify-between">
         <p class="font-bold text-md text-white">Logo</p>
 
         <!-- mobile version -->
@@ -81,7 +81,7 @@ const createNavLogin = () => {
           viewBox="0 0 24 24"
           stroke-width="1.5"
           stroke="currentColor"
-          class="size-12 md:hidden text-white cursor-pointer p-2 hover:bg-teal-800 rounded-lg">
+          class="size-12 md:hidden text-white cursor-pointer p-2 hover:bg-gray-600 rounded-lg">
           <path
             stroke-linecap="round"
             stroke-linejoin="round"
@@ -91,12 +91,12 @@ const createNavLogin = () => {
 
       <!-- desktop version -->
       <div class="hidden md:flex gap-4">
-      <a href="/signup/" class="transition ease-in-out text-white font-bold hover:bg-teal-800 py-2 px-4 rounded-lg">Registro</a>
+      <a href="/signup/" class="transition ease-in-out text-white font-bold hover:bg-gray-600 py-2 px-4 rounded-lg">Registro</a>
       </div>
 
       <!-- mobile menu -->
       <div class="bg-slate-800/60 fixed top-16 right-0 left-0 bottom-0 justify-center items-center flex-col gap-5 hidden">
-      <a href="/signup/" class="transition ease-in-out text-white font-bold hover:bg-teal-800 py-2 px-4 rounded-lg">Regisro</a>
+      <a href="/signup/" class="transition ease-in-out text-white font-bold hover:bg-gray-600 py-2 px-4 rounded-lg">Regisro</a>
       </div>
       </div>`;
 };
@@ -140,8 +140,6 @@ if (window.location.pathname === "/") {
   createNavSignup();
 } else if (window.location.pathname === "/login/") {
   createNavLogin();
-} else if (window.location.pathname === "/dashboard/") {
-  createNavDashboard();
 }
 
 const navBtn = navbar.children[0].children[1];
