@@ -504,7 +504,7 @@ side.addEventListener("click", async (e) => {
                         rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-300 dark:border-gray-600 
                         dark:placeholder-gray-400 dark:text-gray-800 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"/></th>
                         <tr>
-                        <th class="px-1 py-1"></th>
+                        <th class="px-1 py-1">Cuenta</th>
                         <th class="px-4 py-2">Concepto</th>
                         <th class="px-4 py-2 text-center">Debe</th>
                         <th class="px-4 py-2 text-center">Haber</th>
@@ -512,18 +512,27 @@ side.addEventListener("click", async (e) => {
                     </thead>
                     <tbody>
                     <tr>
-                    <td class="px-2 py-2 text-center">...</td>
-                    <td class="px-2 py-2 text-center">Compras</td>
+                    <td id="codigo1" class="px-2 py-2 text-center">...</td>
+                    <td class="px-2 py-2 text-center"><select id="selec-cuenta1" class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-md 
+                    rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-300 
+                    dark:placeholder-gray-400 dark:text-gray-800 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+                    </select></td>
                     <td class="pl-10 py-2 "><input class="rounded text-center" id="inputCompraDebe" type="number"></td>
                     <td class="pl-10 py-2 "><input class="rounded text-center" id="inputCompraHaber" type="number"></td>
                     </tr>
-                    <td class="px-2 py-2 text-center">...</td>
-                    <td class="px-2 py-2 text-center">Iva credito fiscal</td>
+                    <td id="codigo2" class="px-2 py-2 text-center">...</td>
+                    <td class="px-2 py-2 text-center"><select id="selec-cuenta2" class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-md 
+                    rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-300 
+                    dark:placeholder-gray-400 dark:text-gray-800 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+                    </select></td>
                     <td class="pl-10 py-2 "><input class="rounded text-center" id="inputCreditoDebe" type="number"></td>
                     <td class="pl-10 py-2 "><input class="rounded text-center" id="inputCreditoHaber" type="number"></td>
                     </tr>
-                    <td class="px-2 py-2 text-center">...</td>
-                    <td class="px-2 py-2 text-center">Iva retenido</td>
+                    <td id="codigo3" class="px-2 py-2 text-center">...</td>
+                    <td class="px-2 py-2 text-center"><select id="selec-cuenta3" class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-md 
+                    rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-300 
+                    dark:placeholder-gray-400 dark:text-gray-800 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+                    </select></td>
                     <td class="pl-10 py-2 "><input class="rounded text-center" id="inputRetenidoDebe" type="number"></td>
                     <td class="pl-10 py-2 text-center"><input class="rounded text-center" id="inputRetenidoHaber" type="number"></td>
                     </tr>
@@ -540,6 +549,58 @@ side.addEventListener("click", async (e) => {
                     </tfoot>
                     </table>
                 </div>`;
+
+      (async () => {
+        const cuentas = await axios.get("/api/cuentas");
+        const { data } = cuentas;
+
+        const selectCuenta1 = document.getElementById("selec-cuenta1");
+        const selectCuenta2 = document.getElementById("selec-cuenta2");
+        const selectCuenta3 = document.getElementById("selec-cuenta3");
+        // Crear opciones para cada elemento de los datos
+        data.forEach((item) => {
+          const option = document.createElement("option");
+          console.log(option);
+          option.value = item.nombre; // O cualquier otro valor que quieras asignar
+          option.innerText = item.nombre; // Reemplaza 'nombre' por el campo que quieres mostrar
+          selectCuenta1.appendChild(option);
+          selectCuenta1.addEventListener("input", async (e) => {
+            selecCuentas = data.find(
+              (cuentas) => cuentas.nombre === selectCuenta1.value
+            );
+            const codigo = document.getElementById("codigo1");
+            codigo.innerText = selecCuentas.codigo;
+          });
+          data.forEach((item) => {
+            const option = document.createElement("option");
+            console.log(option);
+            option.value = item.nombre; // O cualquier otro valor que quieras asignar
+            option.innerText = item.nombre; // Reemplaza 'nombre' por el campo que quieres mostrar
+            selectCuenta2.appendChild(option);
+            selectCuenta2.addEventListener("input", async (e) => {
+              selecCuentas = data.find(
+                (cuentas) => cuentas.nombre === selectCuenta2.value
+              );
+              const codigo = document.getElementById("codigo2");
+              codigo.innerText = selecCuentas.codigo;
+            });
+          });
+          data.forEach((item) => {
+            const option = document.createElement("option");
+            console.log(option);
+            option.value = item.nombre; // O cualquier otro valor que quieras asignar
+            option.innerText = item.nombre; // Reemplaza 'nombre' por el campo que quieres mostrar
+            selectCuenta3.appendChild(option);
+            selectCuenta3.addEventListener("input", async (e) => {
+              selecCuentas = data.find(
+                (cuentas) => cuentas.nombre === selectCuenta3.value
+              );
+              const codigo = document.getElementById("codigo3");
+              codigo.innerText = selecCuentas.codigo;
+            });
+          });
+        });
+      })();
 
       const compraDebe = document.getElementById("inputCompraDebe");
       const compraHaber = document.getElementById("inputCompraHaber");
@@ -591,7 +652,6 @@ side.addEventListener("click", async (e) => {
       btnConciliar.addEventListener("click", async (e) => {
         const cuentas = await axios.get("/api/cuentas");
         const { data } = cuentas;
-        console.log(data);
 
         const tbodyAsiento = document.querySelector("tbody");
         const nuevaFila = document.createElement("tr");
