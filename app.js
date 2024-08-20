@@ -11,7 +11,11 @@ const loginRouter = require("./controllers/login");
 const logoutRouter = require("./controllers/logout");
 // const tasksRouter = require("./controllers/tasks");
 const { userExtractor } = require("./middlewares/auth");
-const registroContableRouter = require("./controllers/registrocontable");
+const empresaRouter = require("./controllers/empresas");
+const libroCompraRouter = require("./controllers/librocompras");
+const proveedorRouter = require("./controllers/proveedores");
+const clienteRouter = require("./controllers/clientes");
+const cuentaRouter = require("./controllers/cuentas");
 
 (async () => {
   try {
@@ -41,6 +45,9 @@ app.use("/api/users", usersRouter);
 app.use("/api/login", loginRouter);
 app.use("/api/logout", logoutRouter);
 // app.use("/api/tasks", userExtractor, tasksRouter);
-app.use("/api/registrocontable", userExtractor, registroContableRouter);
-
+app.use("/api/empresas", userExtractor, empresaRouter);
+app.use("/api/librocompras", userExtractor, libroCompraRouter);
+app.use("/api/proveedores", userExtractor, proveedorRouter);
+app.use("/api/clientes", userExtractor, clienteRouter);
+app.use("/api/cuentas", userExtractor, cuentaRouter);
 module.exports = app;

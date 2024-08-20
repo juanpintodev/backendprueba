@@ -14,10 +14,10 @@ const userSchema = new mongoose.Schema({
   //     ref: "Task",
   //   },
   // ],
-  registrocontable: [
+  empresas: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Registrocontable",
+      ref: "Empresa",
     },
   ],
 });
