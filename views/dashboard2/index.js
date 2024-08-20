@@ -5,6 +5,7 @@ const libros = document.getElementById("libros");
 let empresaId = "";
 let libroCompras = [];
 let proveedorSelec = null;
+let selecCuentas = null;
 
 side.addEventListener("click", async (e) => {
   e.preventDefault();
@@ -26,13 +27,13 @@ side.addEventListener("click", async (e) => {
     <form id="bucar-proveedor" class="w-full">   
     <label for="proveedor" class="mb-1 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
     <div class="relative">
-                    <select id="proveedor" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm 
-                    rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-300 dark:border-gray-600 
-                    dark:placeholder-gray-400 dark:text-gray-800 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
-                    <option>Elegir Proveedor</option>
-                    </select>
-                    </div>
-                    </form>
+        <select id="proveedor" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm 
+        rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-300 dark:border-gray-600 
+        dark:placeholder-gray-400 dark:text-gray-800 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+        <option>Elegir Proveedor</option>
+        </select>
+        </div>
+        </form>
                     `;
 
     div.innerHTML = `
@@ -393,7 +394,6 @@ side.addEventListener("click", async (e) => {
       try {
         const { data } = await axios.get("/api/librocompras");
         data.forEach((compra) => {
-          console.log(compra);
           const fechaSplit = compra.fecha.split("T")[0];
           const calculoIva = (compra.iva * compra.base) / 100;
           const calculoTotal = calculoIva + compra.base + compra.exento;
@@ -476,7 +476,7 @@ side.addEventListener("click", async (e) => {
       let haberTotal = 0;
 
       data.forEach((dato) => {
-        console.log(dato);
+        // console.log(dato);
         const calculoIva = (dato.iva * dato.base) / 100;
         haberTotal = (dato.retencion * calculoIva) / 100;
         debeTotal = dato.base + dato.exento;
@@ -486,9 +486,9 @@ side.addEventListener("click", async (e) => {
         totalHaber += haberTotal;
       });
 
-      console.log(totalIva);
-      console.log(totalDebe);
-      console.log(totalHaber);
+      // console.log(totalIva);
+      // console.log(totalDebe);
+      // console.log(totalHaber);
 
       let cero = 0;
 
@@ -499,7 +499,7 @@ side.addEventListener("click", async (e) => {
                     <table id="table-asientos" class="table-auto w-full">
                     <thead>
                     <tr>
-                        <th class="px-4 py-2 text-center w-14">Asiento Nº <span class="text-gray-600">001</span></th>
+                        <th class="px-4 py-2 text-center w-18">Asiento Nº <span class="text-gray-600">001</span></th>
                         <th class="flex px-4 py-2 text-center">Fecha:<input type="date" id="fecha" class="shadow-sm w-32 text-center bg-gray-50 border border-gray-300 text-gray-900 text-sm 
                         rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-300 dark:border-gray-600 
                         dark:placeholder-gray-400 dark:text-gray-800 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"/></th>
@@ -512,20 +512,20 @@ side.addEventListener("click", async (e) => {
                     </thead>
                     <tbody>
                     <tr>
-                    <td class="px-4 py-2 text-center">...</td>
-                    <td class="px-4 py-2 text-center">Compras</td>
-                    <td class="px-4 py-2 text-center">${totalDebe}</td>
-                    <td class="px-4 py-2 text-center">${cero}</td>
+                    <td class="px-2 py-2 text-center">...</td>
+                    <td class="px-2 py-2 text-center">Compras</td>
+                    <td class="pl-10 py-2 "><input class="rounded text-center" id="inputCompraDebe" type="number"></td>
+                    <td class="pl-10 py-2 "><input class="rounded text-center" id="inputCompraHaber" type="number"></td>
                     </tr>
-                    <td class="px-4 py-2 text-center">...</td>
-                    <td class="px-4 py-2 text-center">Iva credito fiscal</td>
-                    <td class="px-4 py-2 text-center">${totalIva}</td>
-                    <td class="px-4 py-2 text-center">${cero}</td>
+                    <td class="px-2 py-2 text-center">...</td>
+                    <td class="px-2 py-2 text-center">Iva credito fiscal</td>
+                    <td class="pl-10 py-2 "><input class="rounded text-center" id="inputCreditoDebe" type="number"></td>
+                    <td class="pl-10 py-2 "><input class="rounded text-center" id="inputCreditoHaber" type="number"></td>
                     </tr>
-                    <td class="px-4 py-2 text-center">...</td>
-                    <td class="px-4 py-2 text-center">Iva retenido</td>
-                    <td class="px-4 py-2 text-center">${cero}</td>
-                    <td class="px-4 py-2 text-center">${totalHaber}</td>
+                    <td class="px-2 py-2 text-center">...</td>
+                    <td class="px-2 py-2 text-center">Iva retenido</td>
+                    <td class="pl-10 py-2 "><input class="rounded text-center" id="inputRetenidoDebe" type="number"></td>
+                    <td class="pl-10 py-2 text-center"><input class="rounded text-center" id="inputRetenidoHaber" type="number"></td>
                     </tr>
                         </tbody>
                     <tfoot>
@@ -540,6 +540,20 @@ side.addEventListener("click", async (e) => {
                     </tfoot>
                     </table>
                 </div>`;
+
+      const compraDebe = document.getElementById("inputCompraDebe");
+      const compraHaber = document.getElementById("inputCompraHaber");
+      const creditoDebe = document.getElementById("inputCreditoDebe");
+      const creditoHaber = document.getElementById("inputCreditoHaber");
+      const retenidoDebe = document.getElementById("inputRetenidoDebe");
+      const retenidoHaber = document.getElementById("inputRetenidoHaber");
+
+      compraDebe.value = totalDebe;
+      compraHaber.value = cero;
+      creditoDebe.value = totalIva;
+      creditoHaber.value = cero;
+      retenidoDebe.value = cero;
+      retenidoHaber.value = totalHaber;
 
       //   const totalDebeElement = document.getElementById("totalDebe");
       //   const totalHaberElement = document.getElementById("totalHaber");
@@ -575,15 +589,39 @@ side.addEventListener("click", async (e) => {
 
       const btnConciliar = document.getElementById("conciliar");
       btnConciliar.addEventListener("click", async (e) => {
+        const cuentas = await axios.get("/api/cuentas");
+        const { data } = cuentas;
+        console.log(data);
+
         const tbodyAsiento = document.querySelector("tbody");
         const nuevaFila = document.createElement("tr");
         nuevaFila.innerHTML = `                    
-          <td class="px-4 py-2 text-center">...</td>
-            <td class="px-4 py-2 text-center" contenteditable=true>Cuentas</td>
-            <td class="px-4 py-2 text-center">${cero}</td>
-            <td class="px-4 py-2 text-center" contenteditable=true>${cero}</td>
+            <td id="codigo" class="px-1 py-2 text-center"></td>
+            <td class="px-1 py-2 text-center" contenteditable=true><select id="selec-cuenta" class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-md 
+            rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-300 
+            dark:placeholder-gray-400 dark:text-gray-800 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+            </select></td>
+            <td class="pl-10 py-2 text-center"><input class="rounded text-center" type="number"></td>
+            <td class="pl-10 py-2 text-center" contenteditable=true><input class="rounded text-center" type="number"></td>
             `;
         tbodyAsiento.appendChild(nuevaFila);
+
+        const selectCuenta = document.getElementById("selec-cuenta");
+        // Crear opciones para cada elemento de los datos
+        data.forEach((item) => {
+          const option = document.createElement("option");
+          console.log(option);
+          option.value = item.nombre; // O cualquier otro valor que quieras asignar
+          option.innerText = item.nombre; // Reemplaza 'nombre' por el campo que quieres mostrar
+          selectCuenta.appendChild(option);
+          selectCuenta.addEventListener("input", async (e) => {
+            selecCuentas = data.find(
+              (cuentas) => cuentas.nombre === selectCuenta.value
+            );
+            const codigo = document.getElementById("codigo");
+            codigo.innerText = selecCuentas.codigo;
+          });
+        });
       });
     });
   }
