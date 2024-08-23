@@ -668,23 +668,23 @@ side.addEventListener("click", async (e) => {
         </form>
         `;
 
+      const tbodyConciliar = document.querySelector("tbody");
       const btnConciliar = document.getElementById("conciliar");
       btnConciliar.addEventListener("click", async (e) => {
         const cuentas = await axios.get("/api/cuentas");
         const { data } = cuentas;
 
-        const tbodyConciliar = document.querySelector("tbody");
         const nuevaCelda = document.createElement("tr");
         nuevaCelda.innerHTML = `                    
         <td class="codigo px-1 py-2 text-center">...</td>
         <td class="px-1 py-2 text-center" contenteditable=true>
-          <select class="selec-cuenta cursor-pointer text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-md 
+          <select class="concepto selec-cuenta cursor-pointer text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-md 
           rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-300 
           dark:placeholder-gray-400 dark:text-gray-800 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
           </select>
         </td>
-        <td class="pl-10 py-2 text-center"><input contenteditable=true class="bg-gray-200 rounded text-center"></td>
-        <td class="pl-10 py-2 text-center"><input contenteditable=true class="bg-gray-200 rounded text-center" type="number"></td>
+        <td class="debe pl-10 py-2 text-center"><input contenteditable=true class="bg-gray-200 rounded text-center"></td>
+        <td class="haber pl-10 py-2 text-center"><input contenteditable=true class="bg-gray-200 rounded text-center" type="number"></td>
       `;
         tbodyConciliar.appendChild(nuevaCelda);
 
@@ -797,55 +797,66 @@ side.addEventListener("click", async (e) => {
               "bg-green-400",
               "rounded"
             );
+            totalGeneralHaber.classList.remove(
+              "border",
+              "border-green-500",
+              "border-4", // Espesor del borde
+              "rounded-lg"
+            );
           }, 5000);
         }
-      });
 
-      const btnGuardarAsiento = document.getElementById("guardar-asiento");
-      const numeroAsientoInput = document.getElementById("numeroasiento");
-      // Convertir el valor inicial a número
-      let numeroAsiento = parseInt(numeroAsientoInput.value, 10);
-      btnGuardarAsiento.addEventListener("click", async (e) => {
-        // Actualizar el valor del input
-        numeroAsientoInput.value = numeroAsiento.toString().padStart(3, "0");
-        // Incrementar el número de asiento
-        numeroAsiento += 1;
+        const btnGuardarAsiento = document.getElementById("guardar-asiento");
+        const numeroAsientoInput = document.getElementById("numeroasiento");
+        // Convertir el valor inicial a número
+        let numeroAsiento = parseInt(numeroAsientoInput.value, 10);
+        btnGuardarAsiento.addEventListener("click", async (e) => {
+          // Actualizar el valor del input
+          numeroAsientoInput.value = numeroAsiento.toString().padStart(3, "0");
+          // Incrementar el número de asiento
+          numeroAsiento += 1;
 
-        // const form = document.getElementById("form-asiento");
-        // const formData = new FormData(form);
+          function extraerDatosAsiento() {
+            const fechaAsiento = document
+              .getElementById("fecha-asiento")
+              .value.split("T")[0];
+            // Suponiendo que la tabla tiene un ID "tablaAsientos"
+            const filas = form.querySelectorAll("tbody tr");
+            const asientos = [];
 
-        // // Convertir FormData a un objeto simple
-        // const data = {};
-        // formData.forEach((value, key) => {
-        //   data[key] = value;
-        // });
-        const asientoCodigo1 = document.getElementById("codigo1").value;
-        const asientoCuenta1 = document.getElementById("selec-cuenta1").value;
-        const inputCompraDebe =
-          document.getElementById("inputCompraDebe").value;
-        const inputCompraHaber =
-          document.getElementById("inputCompraHaber").value;
-        const fechaAsiento = document.getElementById("fecha-asiento");
+            filas.forEach((fila) => {
+              const celdas = fila.querySelectorAll("td");
+              const cuenta = celdas[0].textContent.trim();
+              const concepto = celdas[1].querySelector("select")
+                ? celdas[1].querySelector("select").value.trim()
+                : "";
+              const debe = celdas[2].querySelector("input")
+                ? parseFloat(celdas[2].querySelector("input").value)
+                : 0;
+              const haber = celdas[3].querySelector("input")
+                ? parseFloat(celdas[3].querySelector("input").value)
+                : 0;
 
-        const asientoCodigo2 = document.getElementById("codigo2").value;
-        const asientoCuenta2 = document.getElementById("selec-cuenta2").value;
+              const asiento = {
+                numero: numeroAsiento,
+                fecha: fechaAsiento,
+                cuenta: cuenta,
+                concepto: concepto,
+                debe: isNaN(debe) ? 0 : debe,
+                haber: isNaN(haber) ? 0 : haber,
+                totalDebe: totalAsientoDebe,
+                totalHaber: totalAsientoHaber,
+              };
 
-        const asientoCodigo3 = document.getElementById("codigo3").value;
-        const asientoCuenta3 = document.getElementById("selec-cuenta3").value;
+              asientos.push(asiento);
+            });
 
-        console.log(
-          fechaAsiento.value,
-          asientoCodigo1,
-          asientoCuenta1,
-          asientoCodigo2,
-          asientoCuenta2,
-          asientoCodigo3,
-          asientoCuenta3,
-          inputCompraDebe,
-          inputCompraHaber,
-          numeroAsientoInput.value,
-          totalHaber
-        );
+            return asientos;
+          }
+          // Ejemplo de uso:
+          const datosAsientos = extraerDatosAsiento();
+          console.log(datosAsientos);
+        });
       });
     });
   }
