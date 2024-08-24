@@ -36,6 +36,12 @@ const empresaSchema = new mongoose.Schema({
       ref: "Cuentas",
     },
   ],
+  asientos: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Cuentas",
+    },
+  ],
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",

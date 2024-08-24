@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const asientoSchema = new mongoose.Schema({
   numero: {
     type: Number,
-    unique: true,
   },
   fecha: {
     type: Date,
@@ -31,6 +30,10 @@ const asientoSchema = new mongoose.Schema({
     haber: {
       type: Number,
     },
+  },
+  empresa: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Empresa",
   },
 });
 

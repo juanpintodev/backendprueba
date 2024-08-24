@@ -499,7 +499,7 @@ side.addEventListener("click", async (e) => {
                     <table id="table-asientos" class="table-auto w-full">
                     <thead>
                     <tr>
-                        <th class="px-4 py-2 text-center w-18">Asiento Nº<input id="numeroasiento" class="text-center bg-gray-300 w-10" value="001"></th>
+                        <th class="px-4 py-2 text-center w-18">Asiento Nº<input id="numeroasiento" class="text-center bg-gray-300 w-10" value="000"></th>
                         <th class="flex px-4 py-2 text-center">Fecha:<input type="date" id="fecha-asiento" class="shadow-sm w-32 text-center bg-gray-50 border border-gray-300 text-gray-900 text-sm 
                         rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-300 dark:border-gray-600 
                         dark:placeholder-gray-400 dark:text-gray-800 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"/></th>
@@ -656,7 +656,7 @@ side.addEventListener("click", async (e) => {
                     <span class="text-sm text-gray-800 dark:text-gray-700 group-hover:text-blue-600 dark:group-hover:text-gray-200">Conciliar</span>
                 </button>
             </button>
-                <button id="guardar-asiento" type="button" class="inline-flex rounded flex-col items-center justify-center font-medium px-5 hover:bg-gray-50 dark:hover:bg-gray-700 group">
+                <button id="guardar-asiento" type="button" disabled:true class="inline-flex rounded cursor-not-allowed flex-col items-center justify-center font-medium px-5 hover:bg-gray-50 dark:hover:bg-gray-700 group">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 mb-1 text-gray-800 dark:text-gray-700 group-hover:text-blue-600 dark:group-hover:text-gray-200">
                 <path d="M3.375 3C2.339 3 1.5 3.84 1.5 4.875v.75c0 1.036.84 1.875 1.875 1.875h17.25c1.035 0 1.875-.84 1.875-1.875v-.75C22.5 3.839 21.66 3 20.625 3H3.375Z" />
                 <path fill-rule="evenodd" d="m3.087 9 .54 9.176A3 3 0 0 0 6.62 21h10.757a3 3 0 0 0 2.995-2.824L20.913 9H3.087Zm6.163 3.75A.75.75 0 0 1 10 12h4a.75.75 0 0 1 0 1.5h-4a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />
@@ -736,6 +736,9 @@ side.addEventListener("click", async (e) => {
         totalGeneralHaber.innerHTML = `${totalAsientoHaber.toFixed(2)}`;
 
         if (totalAsientoHaber != totalAsientoDebe) {
+          const btnGuardarAsiento = document.getElementById("guardar-asiento");
+          btnGuardarAsiento.classList.add("cursor-not-allowed");
+          btnGuardarAsiento.disabled = true;
           totalGeneralHaber.classList.remove(
             "border",
             "border-green-500",
@@ -762,6 +765,9 @@ side.addEventListener("click", async (e) => {
           );
           notificacion.innerHTML = `El Total Debe y Haber no coindide`;
         } else {
+          const btnGuardarAsiento = document.getElementById("guardar-asiento");
+          btnGuardarAsiento.classList.remove("cursor-not-allowed");
+          btnGuardarAsiento.disabled = false;
           totalGeneralHaber.classList.remove(
             "border",
             "border-red-500",
@@ -805,58 +811,66 @@ side.addEventListener("click", async (e) => {
             );
           }, 5000);
         }
+      });
 
-        const btnGuardarAsiento = document.getElementById("guardar-asiento");
-        const numeroAsientoInput = document.getElementById("numeroasiento");
-        // Convertir el valor inicial a número
-        let numeroAsiento = parseInt(numeroAsientoInput.value, 10);
-        btnGuardarAsiento.addEventListener("click", async (e) => {
-          // Actualizar el valor del input
-          numeroAsientoInput.value = numeroAsiento.toString().padStart(3, "0");
-          // Incrementar el número de asiento
-          numeroAsiento += 1;
+      const btnGuardarAsiento = document.getElementById("guardar-asiento");
+      const numeroAsientoInput = document.getElementById("numeroasiento");
+      // Convertir el valor inicial a número
+      let numeroAsiento = parseInt(numeroAsientoInput.value, 10);
+      btnGuardarAsiento.addEventListener("click", async (e) => {
+        // Actualizar el valor del input
+        numeroAsientoInput.value = numeroAsiento.toString().padStart(3, "0");
+        // Incrementar el número de asiento
+        numeroAsiento += 1;
 
-          function extraerDatosAsiento() {
-            const fechaAsiento = document
-              .getElementById("fecha-asiento")
-              .value.split("T")[0];
-            // Suponiendo que la tabla tiene un ID "tablaAsientos"
-            const filas = form.querySelectorAll("tbody tr");
-            const asientos = [];
+        const fechaAsiento = document
+          .getElementById("fecha-asiento")
+          .value.split("T")[0];
+        // Suponiendo que la tabla tiene un ID "tablaAsientos"
+        const filas = form.querySelectorAll("tbody tr");
+        const asientos = [];
+        let totalDe = 0;
+        let totalHa = 0;
 
-            filas.forEach((fila) => {
-              const celdas = fila.querySelectorAll("td");
-              const cuenta = celdas[0].textContent.trim();
-              const concepto = celdas[1].querySelector("select")
-                ? celdas[1].querySelector("select").value.trim()
-                : "";
-              const debe = celdas[2].querySelector("input")
-                ? parseFloat(celdas[2].querySelector("input").value)
-                : 0;
-              const haber = celdas[3].querySelector("input")
-                ? parseFloat(celdas[3].querySelector("input").value)
-                : 0;
+        filas.forEach((fila) => {
+          const celdas = fila.querySelectorAll("td");
+          const cuenta = celdas[0].textContent.trim();
+          const concepto = celdas[1].querySelector("select")
+            ? celdas[1].querySelector("select").value.trim()
+            : "";
+          const debe = celdas[2].querySelector("input")
+            ? parseFloat(celdas[2].querySelector("input").value)
+            : 0;
+          const haber = celdas[3].querySelector("input")
+            ? parseFloat(celdas[3].querySelector("input").value)
+            : 0;
 
-              const asiento = {
-                numero: numeroAsiento,
-                fecha: fechaAsiento,
-                cuenta: cuenta,
-                concepto: concepto,
-                debe: isNaN(debe) ? 0 : debe,
-                haber: isNaN(haber) ? 0 : haber,
-                totalDebe: totalAsientoDebe,
-                totalHaber: totalAsientoHaber,
-              };
-
-              asientos.push(asiento);
-            });
-
-            return asientos;
-          }
-          // Ejemplo de uso:
-          const datosAsientos = extraerDatosAsiento();
-          console.log(datosAsientos);
+          const asiento = {
+            cuenta: cuenta,
+            concepto: concepto,
+            debe: isNaN(debe) ? 0 : debe,
+            haber: isNaN(haber) ? 0 : haber,
+          };
+          totalDe += asiento.debe;
+          totalHa += asiento.haber;
+          asientos.push(asiento);
         });
+
+        // Ejemplo de uso:
+        console.log(asientos);
+        try {
+          const { data } = await axios.post("/api/asientos", {
+            numeroAsiento,
+            items: asientos,
+            fechaAsiento,
+            totalDe,
+            totalHa,
+            empresaId,
+          });
+          console.log({ data });
+        } catch (error) {
+          console.log(error);
+        }
       });
     });
   }

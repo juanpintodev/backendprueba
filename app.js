@@ -16,6 +16,7 @@ const libroCompraRouter = require("./controllers/librocompras");
 const proveedorRouter = require("./controllers/proveedores");
 const clienteRouter = require("./controllers/clientes");
 const cuentaRouter = require("./controllers/cuentas");
+const asientoRouter = require("./controllers/asientos");
 
 (async () => {
   try {
@@ -50,4 +51,5 @@ app.use("/api/librocompras", userExtractor, libroCompraRouter);
 app.use("/api/proveedores", userExtractor, proveedorRouter);
 app.use("/api/clientes", userExtractor, clienteRouter);
 app.use("/api/cuentas", userExtractor, cuentaRouter);
+app.use("/api/asientos", userExtractor, asientoRouter);
 module.exports = app;
