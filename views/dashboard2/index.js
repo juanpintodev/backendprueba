@@ -393,7 +393,16 @@ side.addEventListener("click", async (e) => {
     (async () => {
       try {
         const { data } = await axios.get("/api/librocompras");
-        data.forEach((compra) => {
+        const hoy = new Date();
+        const year = hoy.getFullYear();
+        const month = String(hoy.getMonth() + 1).padStart(2, "0"); // Los meses son indexados desde 0
+        const day = String(hoy.getDate()).padStart(2, "0");
+        const fechaHoy = `${year}-${month}-${day}`;
+
+        const librosHoy = data.filter(
+          (compra) => compra.fecha.split("T")[0] === fechaHoy
+        );
+        librosHoy.forEach((compra) => {
           const fechaSplit = compra.fecha.split("T")[0];
           const calculoIva = (compra.iva * compra.base) / 100;
           const calculoTotal = calculoIva + compra.base + compra.exento;
@@ -468,6 +477,16 @@ side.addEventListener("click", async (e) => {
     const btnasiento = document.getElementById("asiento-compra");
     btnasiento.addEventListener("click", async (e) => {
       const { data } = await axios.get("/api/librocompras");
+      const hoy = new Date();
+      const year = hoy.getFullYear();
+      const month = String(hoy.getMonth() + 1).padStart(2, "0"); // Los meses son indexados desde 0
+      const day = String(hoy.getDate()).padStart(2, "0");
+      const fechaHoy = `${year}-${month}-${day}`;
+
+      // Filtrar los registros del día actual
+      const asientosHoy = data.filter(
+        (asiento) => asiento.fecha.split("T")[0] === fechaHoy
+      );
 
       let totalDebe = 0;
       let totalHaber = 0;
@@ -475,7 +494,7 @@ side.addEventListener("click", async (e) => {
       let debeCompras = 0;
       let haberCompras = 0;
 
-      data.forEach((dato) => {
+      asientosHoy.forEach((dato) => {
         // console.log(dato);
         const calculoIva = (dato.iva * dato.base) / 100;
         haberCompras = (dato.retencion * calculoIva) / 100;
@@ -485,10 +504,6 @@ side.addEventListener("click", async (e) => {
         totalDebe += debeCompras;
         totalHaber += haberCompras;
       });
-
-      // console.log(totalIva);
-      // console.log(totalDebe);
-      // console.log(totalHaber);
 
       let cero = 0;
 
@@ -534,7 +549,7 @@ side.addEventListener("click", async (e) => {
                     dark:placeholder-gray-400 dark:text-gray-800 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
                     </select></td>
                     <td class="pl-10 py-2 "><input class="bg-gray-200 rounded text-center" id="inputRetenidoDebe" type="number"></td>
-                    <td class="pl-10 py-2 text-center"><input class="bg-gray-200 rounded text-center" id="inputRetenidoHaber" type="number"></td>
+                    <td class="pl-10 py-2 "><input class="bg-gray-200 rounded text-center" id="inputRetenidoHaber" type="number"></td>
                     </tr>
                         </tbody>
                     <tfoot>
@@ -550,6 +565,21 @@ side.addEventListener("click", async (e) => {
                     </table>
                     <div id="notification"></div>
                 </form>`;
+
+      // Función para obtener el último número de asiento
+      // async function obtenerUltimoNumeroAsiento() {
+      try {
+        const response = await axios.get("/api/asientos");
+        const numeroAsientoInput = document.getElementById("numeroasiento");
+        const nAsientos = response.data.length;
+        const nuevoNumero = Number(numeroAsientoInput.value) + nAsientos + 1;
+        const nuevoNumFormato = nuevoNumero.toString().padStart(3, "0");
+        numeroAsientoInput.value = nuevoNumFormato;
+        // return ultimoAsiento ? ultimoAsiento.numeroAsiento : 0;
+      } catch (error) {
+        console.error("Error al obtener el último asiento:", error);
+        return 0;
+      }
 
       (async () => {
         const cuentas = await axios.get("/api/cuentas");
@@ -640,7 +670,7 @@ side.addEventListener("click", async (e) => {
 
       libros.innerHTML = `
     
-      <form id="asientos" class="bottom-0 p-2">
+      <form id="asientos-botones" class="bottom-0 p-2">
                 <div class="sticky mt-1 bottom-0 left-0 z-50 w-full h-10 border-gray-200 dark:border-gray-600">
         <div class="grid h-full max-w-lg grid-cols-3 mx-auto">
             <button type="button" id="asiento-compra" class="inline-flex rounded flex-col items-center justify-center font-medium px-5 hover:bg-gray-50 dark:hover:bg-gray-700 group">
@@ -730,8 +760,6 @@ side.addEventListener("click", async (e) => {
           totalAsientoHaber += parseFloat(input.value) || 0;
         });
 
-        console.log(totalAsientoDebe.toFixed(2), totalAsientoHaber.toFixed(2));
-
         totalGeneralDebe.innerHTML = `${totalAsientoDebe.toFixed(2)}`;
         totalGeneralHaber.innerHTML = `${totalAsientoHaber.toFixed(2)}`;
 
@@ -815,14 +843,8 @@ side.addEventListener("click", async (e) => {
 
       const btnGuardarAsiento = document.getElementById("guardar-asiento");
       const numeroAsientoInput = document.getElementById("numeroasiento");
-      // Convertir el valor inicial a número
-      let numeroAsiento = parseInt(numeroAsientoInput.value, 10);
-      btnGuardarAsiento.addEventListener("click", async (e) => {
-        // Actualizar el valor del input
-        numeroAsientoInput.value = numeroAsiento.toString().padStart(3, "0");
-        // Incrementar el número de asiento
-        numeroAsiento += 1;
 
+      btnGuardarAsiento.addEventListener("click", async (e) => {
         const fechaAsiento = document
           .getElementById("fecha-asiento")
           .value.split("T")[0];
@@ -857,10 +879,9 @@ side.addEventListener("click", async (e) => {
         });
 
         // Ejemplo de uso:
-        console.log(asientos);
         try {
           const { data } = await axios.post("/api/asientos", {
-            numeroAsiento,
+            numeroAsiento: numeroAsientoInput.value,
             items: asientos,
             fechaAsiento,
             totalDe,
@@ -868,9 +889,17 @@ side.addEventListener("click", async (e) => {
             empresaId,
           });
           console.log({ data });
+          form.reset();
         } catch (error) {
           console.log(error);
         }
+        const botones = document.getElementById("asientos-botones");
+        botones.innerHTML = ``;
+        div.innerHTML = ``;
+        titulo.innerHTML = `<div class="flex justify-center w-full text-white text-center bg-green-400 rounded">Se ha guardado exitosamente el asiento</div>`;
+        setTimeout(() => {
+          titulo.innerHTML = ``;
+        }, 5000);
       });
     });
   }
@@ -1160,6 +1189,123 @@ side.addEventListener("click", async (e) => {
         formplandecuentas.reset();
       });
     }
+  }
+
+  if (e.target.closest(".asientos")) {
+    const { data } = await axios.get("/api/asientos");
+    // const fechaSplit = data.fecha.split("T")[0];
+    div.classList.add("flex-wrap", "w-full");
+    div.style = "max-height: 80vw";
+    div.innerHTML = ``;
+    libros.innerHTML = ``;
+    titulo.innerHTML = `
+    <h1 class="text-gray-800 text-center font-bold mt-2 mb-2 text-2xl">Libro de Asientos</h1>`;
+    data.forEach((asiento, index) => {
+      const formId = `form-asiento-${index}`;
+      const tableId = `table-asientos-${index}`;
+      const tbodyId = `tbody-asientos-${index}`;
+      const totalDebeId = `totalAsientoDebe-${index}`;
+      const totalHaberId = `totalAsientoHaber-${index}`;
+      const newNumero = asiento.numero;
+      const agregadoNumero = newNumero.toString().padStart(3, "0");
+      const newFecha = asiento.fecha;
+      const filtroFecha = newFecha.split("T")[0];
+      div.innerHTML += `
+      <form id="${formId}" class="container mx-auto w-full bg-gray-300 rounded overflow-y-auto mb-4 pb-2" style="max-height: 50vw"> 
+      <table id="${tableId}" class="table-auto w-full mt-2">
+        <thead>
+          <tr>
+            <th class="px-4 py-2 text-center w-18">Asiento Nº<input id="numeroasiento" class="text-center bg-gray-300 w-10" value="${agregadoNumero}"></th>
+            <th class="px-4 py-2 text-center">Fecha:<input id="fecha-asiento" class="w-32 text-start bg-gray-300 border border-gray-300 text-gray-900 text-sm 
+            rounded-lg p-2.5" 
+            value="${filtroFecha}"/></th>
+          </tr>
+          <tr>
+            <th class="px-1 py-1 text-left pl-6">Cuenta</th>
+            <th class="px-4 py-2 text-left">Concepto</th>
+            <th class="px-4 py-2 text-center">Debe</th>
+            <th class="px-4 py-2 text-center">Haber</th>
+          </tr>
+        </thead>
+        <tbody id="${tbodyId}">
+          ${asiento.items
+            .map(
+              (item) => `
+            <tr>
+              <td class="px-1 py-1 pl-6">${item.cuenta}</td>
+              <td class="px-4 py-2 ">${item.concepto}</td>
+              <td class="px-4 py-2 text-center">${item.debe}</td>
+              <td class="px-4 py-2 text-center">${item.haber}</td>
+            </tr>
+          `
+            )
+            .join("")}
+            </tbody>
+            <tfoot>
+              <tr>
+                <th></th>
+                <th class="text-right">Totales</th>
+                <th id="${totalDebeId}" class="text-center">${
+        asiento.totales.debe
+      }</th>
+                <th id="${totalHaberId}" class="text-center">${
+        asiento.totales.haber
+      }</th>
+              </tr>
+            </tfoot>
+          </table>
+          <div id="notification"></div>
+        </form>`;
+    });
+
+    // data.forEach((asiento) => {
+    //   div.innerHTML = `
+    // <form id="form-asiento" class="container mx-auto w-full bg-gray-300 rounded overflow-y-auto" style="max-height: 50vw">
+    //             <table id="table-asientos" class="table-auto w-full">
+    //             <thead>
+    //             <tr>
+    //                 <th class="px-4 py-2 text-center w-18">Asiento Nº<input id="numeroasiento" class="text-center bg-gray-300 w-10" value="000"></th>
+    //                 <th class="flex px-4 py-2 text-center">Fecha:<input type="date" id="fecha-asiento" class="shadow-sm w-32 text-center bg-gray-50 border border-gray-300 text-gray-900 text-sm
+    //                 rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-300 dark:border-gray-600
+    //                 dark:placeholder-gray-400 dark:text-gray-800 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"/></th>
+    //                 <tr>
+    //                 <th class="px-1 py-1">Cuenta</th>
+    //                 <th class="px-4 py-2">Concepto</th>
+    //                 <th class="px-4 py-2 text-center">Debe</th>
+    //                 <th class="px-4 py-2 text-center">Haber</th>
+    //                 </tr>
+    //             </thead>
+    //             <tbody>
+    //                 </tbody>
+    //             <tfoot>
+    //             <tr>
+    //                 <th></th>
+    //                 <th class="text-right">Totales</th>
+    //                 <th id="totalAsientoDebe" class="pl-8 text-center"></th>
+    //                 <th id="totalAsientoHaber" class="pl-8 text-center"></th>
+    //                 </tr>
+    //             </tfoot>
+    //             </table>
+    //             <div id="notification"></div>
+    //         </form>`;
+    //   const form = document.getElementById("form-asiento");
+    //   const itemsTabla = document.getElementById("table-asientos");
+    //   const tbody = document.querySelector("tbody");
+    //   const items = asiento.items;
+    //   const nuevosItems = form.children[0].children[1];
+    //   console.log(nuevosItems);
+    //   items.forEach((item) => {
+    //     tbody.innerHTML = `
+    //                 <tr>
+    //                 <th class="px-1 py-1">${item.cuenta}</th>
+    //                 <th class="px-4 py-2">${item.comcepto}</th>
+    //                 <th class="px-4 py-2 text-center">${item.debe}</th>
+    //                 <th class="px-4 py-2 text-center">${item.haber}</th>
+    //                 </tr>`;
+    //     tbody.appendChild(items);
+    //   });
+    //   form.appendChild(itemsTabla);
+    // });
   }
 });
 

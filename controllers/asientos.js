@@ -28,10 +28,8 @@ asientoRouter.post("/", async (request, response) => {
   return response.status(201).json(savedAsiento);
 });
 
-// asientosRouter.get("/", async (request, response) => {
-//   Asiento.find().then((librocompra) => {
-//     console.log(librocompra);
-//     return response.status(201).json(librocompra);
-//   });
-// });
+asientoRouter.get("/", async (request, response) => {
+  const asientos = await Asiento.find();
+  return response.status(201).json(asientos);
+});
 module.exports = asientoRouter;
