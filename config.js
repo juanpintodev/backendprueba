@@ -3,4 +3,9 @@ const PAGE_URL =
     ? "placeholder"
     : "http://localhost:3015";
 
-module.exports = { PAGE_URL };
+const MONGO_URI =
+  process.env.NODE_ENV === "production"
+    ? process.env.MONGO_URI_PROD
+    : process.env.MONGO_URI_TEST;
+
+module.exports = { PAGE_URL, MONGO_URI };

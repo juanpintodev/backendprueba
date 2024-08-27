@@ -1340,8 +1340,8 @@ side.addEventListener("click", async (e) => {
                     <tr>
                         <th></th>
                         <th class="text-right">Totales</th>
-                        <th id="newtotalAsientoDebe" class="pl-4 text-center"></th>
-                        <th id="newtotalAsientoHaber" class="pl-4 text-center"></th>
+                        <th id="newtotalAsientoDebe" class="classTotalDebe pl-4 text-center"></th>
+                        <th id="newtotalAsientoHaber" class="classTotalHaber pl-4 text-center"></th>
                         </tr>
                     </tfoot>
                     </table>
@@ -1391,20 +1391,20 @@ side.addEventListener("click", async (e) => {
         });
 
         const newtabla = document.getElementById("new-table-asientos");
-
         newtabla.addEventListener("input", async (e) => {
-          const valoresDebe = document.querySelectorAll(
-            "td:nth-child(3) input"
-          );
-          const valoresHaber = document.querySelectorAll(
-            "td:nth-child(4) input"
-          );
           const totalGeneralDebe2 = document.getElementById(
             "newtotalAsientoDebe"
           );
           const totalGeneralHaber2 = document.getElementById(
             "newtotalAsientoHaber"
           );
+          const valoresDebe = document.querySelectorAll(
+            "td:nth-child(3) input"
+          );
+          const valoresHaber = document.querySelectorAll(
+            "td:nth-child(4) input"
+          );
+
           const notificacion = document.getElementById("notification");
           let totalAsientoDebe2 = 0;
           let totalAsientoHaber2 = 0;
@@ -1511,6 +1511,11 @@ side.addEventListener("click", async (e) => {
         document.getElementById("newnumeroasiento").value;
       const guardarFechaInput =
         document.getElementById("newfecha-asiento").value;
+      const totalDebeGuardar = document.querySelector(".classTotalDebe");
+      const totalHaberGuardar = document.querySelector(".classTotalHaber");
+      const newTotalDebeGuardar = totalDebeGuardar.textContent;
+      const newTotalHaberGuardar = totalHaberGuardar.textContent;
+
       const asientos = [];
       let totalDe = 0;
       let totalHa = 0;
@@ -1538,8 +1543,35 @@ side.addEventListener("click", async (e) => {
         totalDe += asiento.debe;
         totalHa += asiento.haber;
         asientos.push(asiento);
-        console.log(asientos);
+
+        console.log(
+          asientos,
+          guardarNumeroInput,
+          guardarFechaInput,
+          totalDebeGuardar.textContent,
+          totalHaberGuardar.textContent
+        );
       });
+      try {
+        const { data } = await axios.post("/api/asientos", {
+          numeroAsiento: guardarNumeroInput,
+          items: asientos,
+          fechaAsiento: guardarFechaInput,
+          totalDe: newTotalDebeGuardar,
+          totalHa: newTotalHaberGuardar,
+          empresaId,
+        });
+        console.log({ data });
+      } catch (error) {
+        console.log(error);
+      }
+      const botones = document.getElementById("form-asientos");
+      botones.innerHTML = ``;
+      div.innerHTML = ``;
+      titulo.innerHTML = `<div class="flex justify-center w-full text-white text-center bg-green-400 rounded">Se ha guardado exitosamente el asiento</div>`;
+      setTimeout(() => {
+        titulo.innerHTML = ``;
+      }, 5000);
     });
   }
 });

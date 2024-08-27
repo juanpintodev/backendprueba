@@ -17,10 +17,11 @@ const proveedorRouter = require("./controllers/proveedores");
 const clienteRouter = require("./controllers/clientes");
 const cuentaRouter = require("./controllers/cuentas");
 const asientoRouter = require("./controllers/asientos");
+const { MONGO_URI } = require("./config");
 
 (async () => {
   try {
-    mongoose.connect(process.env.MONGO_URI_TEST);
+    mongoose.connect(MONGO_URI);
     console.log("Conectados a MongoDB");
   } catch (error) {
     console.log(error);
