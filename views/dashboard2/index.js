@@ -35,7 +35,8 @@ side.addEventListener("click", async (e) => {
         </div>
         </form>
                     `;
-
+    div.style.overflowY = "visible";
+    div.style.height = "auto";
     div.innerHTML = `
         <form id="form" class="mt-1 grid sm:grid-cols-3 pt-1 pb-1 md:gap-4 w-full bg-gray-400 rounded p-4 gap-3">
         <div>
@@ -1195,11 +1196,41 @@ side.addEventListener("click", async (e) => {
     const { data } = await axios.get("/api/asientos");
     // const fechaSplit = data.fecha.split("T")[0];
     div.classList.add("flex-wrap", "w-full");
-    div.style = "max-height: 80vw";
     div.innerHTML = ``;
-    libros.innerHTML = ``;
+    libros.classList.add("justify-center");
+    libros.innerHTML = ` 
+            <form id="form-asientos" class="flex p-2">
+                <div class="sticky mt-1 bottom-0 left-0 z-50 w-full h-10 border-gray-200 dark:border-gray-600">
+        <div class="grid h-full max-w-lg grid-cols-3 mx-auto">
+            <button type="button" id="agregar-asiento" class="inline-flex rounded flex-col items-center justify-center font-medium px-5 hover:bg-gray-50 dark:hover:bg-gray-700 group">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 mb-1 text-gray-800 dark:text-gray-700 group-hover:text-blue-600 dark:group-hover:text-gray-200">
+                <path fill-rule="evenodd" d="M5.625 1.5H9a3.75 3.75 0 0 1 3.75 3.75v1.875c0 1.036.84 1.875 1.875 1.875H16.5a3.75 3.75 0 0 1 3.75 3.75v7.875c0 1.035-.84 1.875-1.875 1.875H5.625a1.875 1.875 0 0 1-1.875-1.875V3.375c0-1.036.84-1.875 1.875-1.875ZM12.75 12a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V18a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V12Z" clip-rule="evenodd" />
+                <path d="M14.25 5.25a5.23 5.23 0 0 0-1.279-3.434 9.768 9.768 0 0 1 6.963 6.963A5.23 5.23 0 0 0 16.5 7.5h-1.875a.375.375 0 0 1-.375-.375V5.25Z" />
+              </svg>
+                <span class="text-sm text-gray-800 dark:text-gray-700 group-hover:text-blue-600 dark:group-hover:text-gray-200">Asiento</span>
+            </button>
+            <button id="agregar-item" type="button" class="inline-flex rounded flex-col items-center justify-center font-medium px-5 hover:bg-gray-50 dark:hover:bg-gray-700 group">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 mb-1 text-gray-800 dark:text-gray-700 group-hover:text-blue-600 dark:group-hover:text-gray-200">
+                <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />
+                <path d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
+                </svg>
+                <span class="text-sm text-gray-800 dark:text-gray-700 group-hover:text-blue-600 dark:group-hover:text-gray-200">Item</span>
+            </button>
+            </button>
+                <button id="guardar-asiento-nuevo" type="button" disabled:true class="inline-flex rounded cursor-not-allowed flex-col items-center justify-center font-medium px-5 hover:bg-gray-50 dark:hover:bg-gray-700 group">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 mb-1 text-gray-800 dark:text-gray-700 group-hover:text-blue-600 dark:group-hover:text-gray-200">
+                <path d="M3.375 3C2.339 3 1.5 3.84 1.5 4.875v.75c0 1.036.84 1.875 1.875 1.875h17.25c1.035 0 1.875-.84 1.875-1.875v-.75C22.5 3.839 21.66 3 20.625 3H3.375Z" />
+                <path fill-rule="evenodd" d="m3.087 9 .54 9.176A3 3 0 0 0 6.62 21h10.757a3 3 0 0 0 2.995-2.824L20.913 9H3.087Zm6.163 3.75A.75.75 0 0 1 10 12h4a.75.75 0 0 1 0 1.5h-4a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />
+              </svg>
+                <span class="text-sm text-gray-800 dark:text-gray-700 group-hover:text-blue-600 dark:group-hover:text-gray-200">Guardar</span>
+            </button>
+        </div>
+        </form>
+     `;
     titulo.innerHTML = `
-    <h1 class="text-gray-800 text-center font-bold mt-2 mb-2 text-2xl">Libro de Asientos</h1>`;
+    <h1 class="text-gray-800 text-center font-bold mt-2 mb-2 text-2xl">Libro de Asientos</h1>
+    <div id="notification"></div>`;
+
     data.forEach((asiento, index) => {
       const formId = `form-asiento-${index}`;
       const tableId = `table-asientos-${index}`;
@@ -1210,6 +1241,8 @@ side.addEventListener("click", async (e) => {
       const agregadoNumero = newNumero.toString().padStart(3, "0");
       const newFecha = asiento.fecha;
       const filtroFecha = newFecha.split("T")[0];
+      div.style.overflowY = "scroll";
+      div.style.height = "80%";
       div.innerHTML += `
       <form id="${formId}" class="container mx-auto w-full bg-gray-300 rounded overflow-y-auto mb-4 pb-2" style="max-height: 50vw"> 
       <table id="${tableId}" class="table-auto w-full mt-2">
@@ -1255,59 +1288,310 @@ side.addEventListener("click", async (e) => {
             </tfoot>
           </table>
           <div id="notification"></div>
-        </form>`;
+        </form>
+        `;
     });
 
-    // data.forEach((asiento) => {
-    //   div.innerHTML = `
-    // <form id="form-asiento" class="container mx-auto w-full bg-gray-300 rounded overflow-y-auto" style="max-height: 50vw">
-    //             <table id="table-asientos" class="table-auto w-full">
-    //             <thead>
-    //             <tr>
-    //                 <th class="px-4 py-2 text-center w-18">Asiento Nº<input id="numeroasiento" class="text-center bg-gray-300 w-10" value="000"></th>
-    //                 <th class="flex px-4 py-2 text-center">Fecha:<input type="date" id="fecha-asiento" class="shadow-sm w-32 text-center bg-gray-50 border border-gray-300 text-gray-900 text-sm
-    //                 rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-300 dark:border-gray-600
-    //                 dark:placeholder-gray-400 dark:text-gray-800 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"/></th>
-    //                 <tr>
-    //                 <th class="px-1 py-1">Cuenta</th>
-    //                 <th class="px-4 py-2">Concepto</th>
-    //                 <th class="px-4 py-2 text-center">Debe</th>
-    //                 <th class="px-4 py-2 text-center">Haber</th>
-    //                 </tr>
-    //             </thead>
-    //             <tbody>
-    //                 </tbody>
-    //             <tfoot>
-    //             <tr>
-    //                 <th></th>
-    //                 <th class="text-right">Totales</th>
-    //                 <th id="totalAsientoDebe" class="pl-8 text-center"></th>
-    //                 <th id="totalAsientoHaber" class="pl-8 text-center"></th>
-    //                 </tr>
-    //             </tfoot>
-    //             </table>
-    //             <div id="notification"></div>
-    //         </form>`;
-    //   const form = document.getElementById("form-asiento");
-    //   const itemsTabla = document.getElementById("table-asientos");
-    //   const tbody = document.querySelector("tbody");
-    //   const items = asiento.items;
-    //   const nuevosItems = form.children[0].children[1];
-    //   console.log(nuevosItems);
-    //   items.forEach((item) => {
-    //     tbody.innerHTML = `
-    //                 <tr>
-    //                 <th class="px-1 py-1">${item.cuenta}</th>
-    //                 <th class="px-4 py-2">${item.comcepto}</th>
-    //                 <th class="px-4 py-2 text-center">${item.debe}</th>
-    //                 <th class="px-4 py-2 text-center">${item.haber}</th>
-    //                 </tr>`;
-    //     tbody.appendChild(items);
-    //   });
-    //   form.appendChild(itemsTabla);
-    // });
+    const btnAgregarAsiento = document.getElementById("agregar-asiento");
+    const hoy = new Date();
+    const year = hoy.getFullYear();
+    const month = String(hoy.getMonth() + 1).padStart(2, "0"); // Los meses son indexados desde 0
+    const day = String(hoy.getDate()).padStart(2, "0");
+    const fechaHoy = `${year}-${month}-${day}`;
+
+    const response = await axios.get("/api/asientos");
+    const nAsientos = response.data.length;
+    const nuevoNumero = nAsientos + 1;
+    const nuevoNumFormato = nuevoNumero.toString().padStart(3, "0");
+
+    btnAgregarAsiento.addEventListener("click", async (e) => {
+      const cuentas = await axios.get("/api/cuentas");
+      const { data } = cuentas;
+      const newform = document.createElement("form");
+      newform.id = "newform";
+      newform.classList.add(
+        "bg-gray-300",
+        "container",
+        "mx-auto",
+        "w-full",
+        "rounded",
+        "overflow-y-auto",
+        "mb-4",
+        "pb-2"
+      );
+      newform.innerHTML = `
+                <table id="new-table-asientos" class="table-auto w-full">
+                    <thead>
+                    <tr>
+                        <th class="px-4 py-2 text-center w-18">Asiento Nº<input id="newnumeroasiento" class="text-center bg-gray-300 w-10" value="${nuevoNumFormato}"></th>
+                        <th class="flex items-center justify-center px-4 py-2 text-center">Fecha:<input id="newfecha-asiento" value="${fechaHoy}"class="w-32 text-center bg-gray-50 border border-gray-300 text-gray-900 text-sm 
+                        rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-300 
+                        dark:placeholder-gray-400 dark:text-gray-800 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"/></th>
+                        <tr>
+                        <th class="px-1 py-1">Cuenta</th>
+                        <th class="px-4 py-2">Concepto</th>
+                        <th class="px-4 py-2 text-center">Debe</th>
+                        <th class="px-4 py-2 text-center">Haber</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        </tbody>
+                    <tfoot>
+                    <tr>
+                        <th></th>
+                        <th class="text-right">Totales</th>
+                        <th id="newtotalAsientoDebe" class="pl-4 text-center"></th>
+                        <th id="newtotalAsientoHaber" class="pl-4 text-center"></th>
+                        </tr>
+                    </tfoot>
+                    </table>
+                    
+                    `;
+
+      div.appendChild(newform);
+      // Agregar evento al nuevo botón "Agregar Item"
+      const btnAgregarItem = document.getElementById("agregar-item");
+      btnAgregarItem.addEventListener("click", () => {
+        const nuevaCelda = document.createElement("tr");
+        nuevaCelda.innerHTML = `                    
+      <td class="codigo px-1 py-2 text-center">...</td>
+      <td class="px-1 py-2 text-center" contenteditable=true>
+        <select class="concepto selec-cuenta cursor-pointer text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-md 
+        rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-300 
+        dark:placeholder-gray-400 dark:text-gray-800 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+        </select>
+      </td>
+      <td class="debe pl-2 py-2 text-center"><input contenteditable=true class="bg-gray-200 w-20 rounded text-center"></td>
+      <td class="haber pl-2 py-2 text-center"><input contenteditable=true class="bg-gray-200 w-20 rounded text-center" type="number"></td>
+    `;
+
+        const tbodyAgregar = newform.querySelector("tbody");
+        tbodyAgregar.appendChild(nuevaCelda);
+
+        const selectCuenta = nuevaCelda.querySelector(".selec-cuenta");
+        const defaultOption = document.createElement("option");
+        defaultOption.value = ""; // O cualquier otro valor que quieras asignar
+        defaultOption.textContent = "Elegir Cuenta";
+        defaultOption.selected = true;
+        defaultOption.disabled = true;
+        selectCuenta.appendChild(defaultOption);
+        data.forEach((item) => {
+          const option = document.createElement("option");
+          option.value = item.nombre; // O cualquier otro valor que quieras asignar
+          option.innerText = item.nombre; // Reemplaza 'nombre' por el campo que quieres mostrar
+          selectCuenta.appendChild(option);
+        });
+
+        selectCuenta.addEventListener("input", async (e) => {
+          selecCuentas = data.find(
+            (cuentas) => cuentas.nombre === selectCuenta.value
+          );
+          const codigo = nuevaCelda.querySelector(".codigo");
+          codigo.innerText = selecCuentas.codigo;
+        });
+
+        const newtabla = document.getElementById("new-table-asientos");
+
+        newtabla.addEventListener("input", async (e) => {
+          const valoresDebe = document.querySelectorAll(
+            "td:nth-child(3) input"
+          );
+          const valoresHaber = document.querySelectorAll(
+            "td:nth-child(4) input"
+          );
+          const totalGeneralDebe2 = document.getElementById(
+            "newtotalAsientoDebe"
+          );
+          const totalGeneralHaber2 = document.getElementById(
+            "newtotalAsientoHaber"
+          );
+          const notificacion = document.getElementById("notification");
+          let totalAsientoDebe2 = 0;
+          let totalAsientoHaber2 = 0;
+
+          valoresDebe.forEach((input) => {
+            totalAsientoDebe2 += parseFloat(input.value) || 0;
+          });
+
+          valoresHaber.forEach((input) => {
+            totalAsientoHaber2 += parseFloat(input.value) || 0;
+          });
+
+          totalGeneralDebe2.innerHTML = `${totalAsientoDebe2.toFixed(2)}`;
+          totalGeneralHaber2.innerHTML = `${totalAsientoHaber2.toFixed(2)}`;
+          console.log(totalAsientoDebe2, totalAsientoHaber2);
+          const btnGuardarAsientoNuevo = document.getElementById(
+            "guardar-asiento-nuevo"
+          );
+          if (totalAsientoHaber2 != totalAsientoDebe2) {
+            btnGuardarAsientoNuevo.classList.add("cursor-not-allowed");
+            btnGuardarAsientoNuevo.disabled = true;
+            totalGeneralHaber2.classList.remove(
+              "border",
+              "border-green-500",
+              "border-4", // Espesor del borde
+              "rounded-lg"
+            );
+            totalGeneralHaber2.classList.add(
+              "border",
+              "border-red-500",
+              "border-4", // Espesor del borde
+              "rounded-lg"
+            );
+            notificacion.classList.remove(
+              "text-white",
+              "text-center",
+              "bg-green-400",
+              "rounded"
+            );
+            notificacion.classList.add(
+              "text-white",
+              "text-center",
+              "bg-red-400",
+              "rounded"
+            );
+            notificacion.innerHTML = `El Total Debe y Haber no coindide`;
+          } else {
+            const btnGuardarAsientoNuevo = document.getElementById(
+              "guardar-asiento-nuevo"
+            );
+            btnGuardarAsientoNuevo.classList.remove("cursor-not-allowed");
+            btnGuardarAsientoNuevo.disabled = false;
+            totalGeneralHaber2.classList.remove(
+              "border",
+              "border-red-500",
+              "border-4", // Espesor del borde
+              "rounded-lg"
+            );
+            totalGeneralHaber2.classList.add(
+              "border",
+              "border-green-500",
+              "border-4", // Espesor del borde
+              "rounded-lg"
+            );
+            notificacion.innerHTML = `Haz cociliado correctamente los totales`;
+            notificacion.classList.remove(
+              "text-white",
+              "text-center",
+              "bg-red-400",
+              "rounded"
+            );
+            notificacion.classList.add(
+              "text-white",
+              "text-center",
+              "bg-green-400",
+              "rounded"
+            );
+
+            setTimeout(() => {
+              notificacion.innerHTML = "";
+              notificacion.classList.remove(
+                "text-white",
+                "text-center",
+                "bg-red-400",
+                "bg-green-400",
+                "rounded"
+              );
+              totalGeneralHaber2.classList.remove(
+                "border",
+                "border-green-500",
+                "border-4", // Espesor del borde
+                "rounded-lg"
+              );
+            }, 5000);
+          }
+        });
+      });
+    });
+    const btnGuardarAsientoNuevo = document.getElementById(
+      "guardar-asiento-nuevo"
+    );
+    btnGuardarAsientoNuevo.addEventListener("click", async (e) => {
+      const guardarNumeroInput =
+        document.getElementById("newnumeroasiento").value;
+      const guardarFechaInput =
+        document.getElementById("newfecha-asiento").value;
+      const asientos = [];
+      let totalDe = 0;
+      let totalHa = 0;
+      const newForm2 = document.getElementById("newform");
+      const filas = newForm2.querySelectorAll("tbody tr");
+      filas.forEach((fila) => {
+        const celdas = fila.querySelectorAll("td");
+        const cuenta = celdas[0].textContent.trim();
+        const concepto = celdas[1].querySelector("select")
+          ? celdas[1].querySelector("select").value.trim()
+          : "";
+        const debe = celdas[2].querySelector("input")
+          ? parseFloat(celdas[2].querySelector("input").value)
+          : 0;
+        const haber = celdas[3].querySelector("input")
+          ? parseFloat(celdas[3].querySelector("input").value)
+          : 0;
+
+        const asiento = {
+          cuenta: cuenta,
+          concepto: concepto,
+          debe: isNaN(debe) ? 0 : debe,
+          haber: isNaN(haber) ? 0 : haber,
+        };
+        totalDe += asiento.debe;
+        totalHa += asiento.haber;
+        asientos.push(asiento);
+        console.log(asientos);
+      });
+    });
   }
 });
+
+// data.forEach((asiento) => {
+//   div.innerHTML = `
+// <form id="form-asiento" class="container mx-auto w-full bg-gray-300 rounded overflow-y-auto" style="max-height: 50vw">
+//             <table id="table-asientos" class="table-auto w-full">
+//             <thead>
+//             <tr>
+//                 <th class="px-4 py-2 text-center w-18">Asiento Nº<input id="numeroasiento" class="text-center bg-gray-300 w-10" value="000"></th>
+//                 <th class="flex px-4 py-2 text-center">Fecha:<input type="date" id="fecha-asiento" class="shadow-sm w-32 text-center bg-gray-50 border border-gray-300 text-gray-900 text-sm
+//                 rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-300 dark:border-gray-600
+//                 dark:placeholder-gray-400 dark:text-gray-800 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"/></th>
+//                 <tr>
+//                 <th class="px-1 py-1">Cuenta</th>
+//                 <th class="px-4 py-2">Concepto</th>
+//                 <th class="px-4 py-2 text-center">Debe</th>
+//                 <th class="px-4 py-2 text-center">Haber</th>
+//                 </tr>
+//             </thead>
+//             <tbody>
+//                 </tbody>
+//             <tfoot>
+//             <tr>
+//                 <th></th>
+//                 <th class="text-right">Totales</th>
+//                 <th id="totalAsientoDebe" class="pl-8 text-center"></th>
+//                 <th id="totalAsientoHaber" class="pl-8 text-center"></th>
+//                 </tr>
+//             </tfoot>
+//             </table>
+//             <div id="notification"></div>
+//         </form>`;
+//   const form = document.getElementById("form-asiento");
+//   const itemsTabla = document.getElementById("table-asientos");
+//   const tbody = document.querySelector("tbody");
+//   const items = asiento.items;
+//   const nuevosItems = form.children[0].children[1];
+//   console.log(nuevosItems);
+//   items.forEach((item) => {
+//     tbody.innerHTML = `
+//                 <tr>
+//                 <th class="px-1 py-1">${item.cuenta}</th>
+//                 <th class="px-4 py-2">${item.comcepto}</th>
+//                 <th class="px-4 py-2 text-center">${item.debe}</th>
+//                 <th class="px-4 py-2 text-center">${item.haber}</th>
+//                 </tr>`;
+//     tbody.appendChild(items);
+//   });
+//   form.appendChild(itemsTabla);
+// });
 
 //PARA OBTENER VALORES DE LOS INPUT Y AGREGARLOS A UN ARRAY PRIMERA FORMA USANDO NAME EN LOS INPUT//
 // const datos = Object.fromEntries(formData);
