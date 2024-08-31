@@ -1244,8 +1244,8 @@ side.addEventListener("click", async (e) => {
       div.style.overflowY = "scroll";
       div.style.height = "80%";
       div.innerHTML += `
-      <form id="${formId}" class="container mx-auto w-full bg-gray-300 rounded overflow-y-auto mb-4 pb-2" style="max-height: 50vw"> 
-      <table id="${tableId}" class="table-auto w-full mt-2">
+      <form id="${formId}" class="container mx-auto w-full bg-gray-300 rounded overflow-y-auto mb-2 pb-2" style="max-height: 50vw"> 
+      <table id="${tableId}" class="table-auto w-full">
         <thead>
           <tr>
             <th class="px-4 py-2 text-center w-18">Asiento Nº<input id="numeroasiento" class="text-center bg-gray-300 w-10" value="${agregadoNumero}"></th>
@@ -1316,7 +1316,7 @@ side.addEventListener("click", async (e) => {
         "w-full",
         "rounded",
         "overflow-y-auto",
-        "mb-4",
+        "mb-2",
         "pb-2"
       );
       newform.innerHTML = `
