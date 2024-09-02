@@ -10,9 +10,8 @@ let selecCuentas = null;
 side.addEventListener("click", async (e) => {
   e.preventDefault();
   (async () => {
-    const empresa = await axios.get(`/api/empresas`);
-    const { data } = empresa;
-    empresaId = data.id;
+    const urlParams = new URLSearchParams(window.location.search);
+    empresaId = urlParams.get("empresaId");
     console.log(empresaId);
   })();
   if (e.target.closest(".libro-compras")) {
@@ -1071,7 +1070,7 @@ side.addEventListener("click", async (e) => {
     libros.innerHTML = ``;
     titulo.innerHTML = `
     <h1 class="text-gray-800 text-center font-bold mt-4 mb-2 text-2xl">Registro de Empresas</h1>`;
-    div.classList.add("w-full");
+    div.classList.add("flex-col", "w-full");
     div.innerHTML = `
         <form id="form-empresas" class="grid sm:grid-cols-1 md:gap-4 w-6/12 bg-gray-400 rounded p-4 gap-3">
         <div>
@@ -1114,6 +1113,12 @@ side.addEventListener("click", async (e) => {
                 </div>
             </div>
             </form>
+             <div class="sticky mt-1 bottom-0 left-0 z-50 w-full h-10 border-gray-200 dark:border-gray-600">
+        <div class="flex flex-col h-full max-w-lg mx-auto">
+            <h1 class="text-center text-red-500">Para regresar al menu seleccionar empresas presione <a class="text-center text-blue-700 hover:text-blue-300 underline" href="/select-company/index.html">AQUI</a></h1>
+            
+        </div>
+        </div>
             `;
 
     const formempresas = document.querySelector("#form-empresas");
