@@ -216,9 +216,9 @@ side.addEventListener("click", async (e) => {
                 </tbody>
             </table>
         </div>
-        <form id="form-asientos" class="flex p-2">
-                <div class="sticky mt-1 bottom-0 left-0 z-50 w-full h-10 border-gray-200 dark:border-gray-600">
-        <div class="grid h-full max-w-lg grid-cols-3 mx-auto">
+        <form id="form-asientos" class="flex justify-center p-2">
+                <div class="flex items-center justify-center mt-1 bottom-0 left-0 z-50 w-full h-10 border-gray-200 dark:border-gray-600">
+        <div class="flex h-full max-w-lg flex-row">
             <button type="button" id="asiento-compra" class="inline-flex rounded flex-col items-center justify-center font-medium px-5 hover:bg-gray-50 dark:hover:bg-gray-700 group">
                 <svg class="w-4 h-4 mb-1 text-gray-800 dark:text-gray-700 group-hover:text-blue-600 dark:group-hover:text-gray-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M11.25 4.533A9.707 9.707 0 0 0 6 3a9.735 9.735 0 0 0-3.25.555.75.75 0 0 0-.5.707v14.25a.75.75 0 0 0 1 .707A8.237 8.237 0 0 1 6 18.75c1.995 0 3.823.707 5.25 1.886V4.533ZM12.75 20.636A8.214 8.214 0 0 1 18 18.75c.966 0 1.89.166 2.75.47a.75.75 0 0 0 1-.708V4.262a.75.75 0 0 0-.5-.707A9.735 9.735 0 0 0 18 3a9.707 9.707 0 0 0-5.25 1.533v16.103Z" />
@@ -237,6 +237,13 @@ side.addEventListener("click", async (e) => {
                 <path fill-rule="evenodd" d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z" clip-rule="evenodd" />
                 </svg>
                 <span class="text-sm text-gray-800 dark:text-gray-700 group-hover:text-blue-600 dark:group-hover:text-gray-200">Eliminar</span>
+            </button>
+            <button type="button" id="todas" class="inline-flex rounded flex-col items-center justify-center font-medium px-5 hover:bg-gray-50 dark:hover:bg-gray-700 group">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 mb-1 text-gray-800 dark:text-gray-700 group-hover:text-blue-600 dark:group-hover:text-gray-200">
+            <path fill-rule="evenodd" d="M7.502 6h7.128A3.375 3.375 0 0 1 18 9.375v9.375a3 3 0 0 0 3-3V6.108c0-1.505-1.125-2.811-2.664-2.94a48.972 48.972 0 0 0-.673-.05A3 3 0 0 0 15 1.5h-1.5a3 3 0 0 0-2.663 1.618c-.225.015-.45.032-.673.05C8.662 3.295 7.554 4.542 7.502 6ZM13.5 3A1.5 1.5 0 0 0 12 4.5h4.5A1.5 1.5 0 0 0 15 3h-1.5Z" clip-rule="evenodd" />
+            <path fill-rule="evenodd" d="M3 9.375C3 8.339 3.84 7.5 4.875 7.5h9.75c1.036 0 1.875.84 1.875 1.875v11.25c0 1.035-.84 1.875-1.875 1.875h-9.75A1.875 1.875 0 0 1 3 20.625V9.375ZM6 12a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H6.75a.75.75 0 0 1-.75-.75V12Zm2.25 0a.75.75 0 0 1 .75-.75h3.75a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75ZM6 15a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H6.75a.75.75 0 0 1-.75-.75V15Zm2.25 0a.75.75 0 0 1 .75-.75h3.75a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75ZM6 18a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H6.75a.75.75 0 0 1-.75-.75V18Zm2.25 0a.75.75 0 0 1 .75-.75h3.75a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />
+            </svg>
+            <span class="text-sm text-gray-800 dark:text-gray-700 group-hover:text-blue-600 dark:group-hover:text-gray-200">Compras Generales</span>
             </button>
         </div>
         </form>
@@ -402,7 +409,12 @@ side.addEventListener("click", async (e) => {
         const librosHoy = data.filter(
           (compra) => compra.fecha.split("T")[0] === fechaHoy
         );
-        librosHoy.forEach((compra) => {
+
+        const librosFilteredHoy = librosHoy.filter(
+          (libro) => libro.empresa === empresaId
+        );
+
+        librosFilteredHoy.forEach((compra) => {
           const fechaSplit = compra.fecha.split("T")[0];
           const calculoIva = (compra.iva * compra.base) / 100;
           const calculoTotal = calculoIva + compra.base + compra.exento;
@@ -902,6 +914,173 @@ side.addEventListener("click", async (e) => {
         }, 5000);
       });
     });
+
+    const btnComprasGenerales = document.getElementById("todas");
+    btnComprasGenerales.addEventListener("click", async () => {
+      titulo.innerHTML = `<h1 class="text-gray-800 text-center font-bold mb-1 text-2xl">Libro de Compras Generales</h1>`;
+      div.innerHTML = ``;
+      libros.style.overflowY = "scroll";
+      libros.style.height = "80%";
+      libros.classList.remove("justify-center");
+      libros.innerHTML = ` <div class="flex overflow-x-auto overflow-y-auto items-start w-full rounded bg-gray-400">
+
+      <table id="tabla-compras" class="w-full mb-1 text-sm text-left rtl:text-right rounded-md text-gray-300 dark:text-gray-400">
+        <thead class="text-xs text-gray-900 uppercase dark:text-gray-800">
+            <tr>
+                <th scope="col" class="flex justify-center mt-2 w-32 px-4 py-1">
+                    Fecha
+                </th>
+                <th scope="col" class="px-4 py-1">
+                    Rif
+                </th>
+                <th scope="col" class="px-4 py-1">
+                    Proveedor
+                </th>
+                <th scope="col" class="px-4 py-1">
+                    Nº Documento
+                </th>
+                <th scope="col" class="px-4 py-1">
+                    Documento
+                </th>
+                <th scope="col" class="px-4 py-1">
+                    Nº Control
+                </th>
+                <th scope="col" class="px-4 py-1">
+                    Descripcion
+                </th>
+                <th scope="col" class="px-4 py-1">
+                    Tipo de Compra
+                </th>
+                <th scope="col" class="px-4 py-1">
+                    Tipo de transaccion
+                </th>
+                <th scope="col" class="px-4 py-1">
+                    Credito fiscal
+                </th>
+                <th scope="col" class="px-4 py-1">
+                    Exento
+                </th>
+                <th scope="col" class="px-4 py-1">
+                    Iva
+                </th>
+                <th scope="col" class="px-4 py-1">
+                    Base
+                </th>
+                <th scope="col" class="px-4 py-1">
+                    Nº Retencion
+                </th>
+                <th scope="col" class="px-4 py-1">
+                    Iva Retenido
+                </th>
+                <th scope="col" class="px-4 py-1">
+                    Total
+                </th>
+            </tr>
+        </thead>
+        <tbody class="text-gray-600 text-center bg-gray-300">
+                </tbody>
+            </table>
+        </div>
+        <form id="form-asientos" class="flex justify-center p-2">
+                <div class="flex items-center justify-center mt-1 bottom-0 left-0 z-50 w-full h-10 border-gray-200 dark:border-gray-600">
+        <div class="flex h-full max-w-lg flex-row">
+            <button type="button" class="inline-flex rounded flex-col items-center justify-center font-medium px-5 hover:bg-gray-50 dark:hover:bg-gray-700 group">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 mb-1 text-gray-800 dark:text-gray-700 group-hover:text-blue-600 dark:group-hover:text-gray-200">
+                <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />
+                <path d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
+                </svg>
+                <span class="text-sm text-gray-800 dark:text-gray-700 group-hover:text-blue-600 dark:group-hover:text-gray-200">Editar</span>
+            </button>
+            <button type="button" id="eliminar" class="inline-flex rounded flex-col items-center justify-center font-medium px-5 hover:bg-gray-50 dark:hover:bg-gray-700 group">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 mb-1 text-gray-800 dark:text-gray-700 group-hover:text-blue-600 dark:group-hover:text-gray-200">
+                <path fill-rule="evenodd" d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z" clip-rule="evenodd" />
+                </svg>
+                <span class="text-sm text-gray-800 dark:text-gray-700 group-hover:text-blue-600 dark:group-hover:text-gray-200">Eliminar</span>
+            </button>
+            <button type="button" id="todas" class="inline-flex rounded flex-col items-center justify-center font-medium px-5 hover:bg-gray-50 dark:hover:bg-gray-700 group">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 mb-1 text-gray-800 dark:text-gray-700 group-hover:text-blue-600 dark:group-hover:text-gray-200">
+            <path fill-rule="evenodd" d="M7.502 6h7.128A3.375 3.375 0 0 1 18 9.375v9.375a3 3 0 0 0 3-3V6.108c0-1.505-1.125-2.811-2.664-2.94a48.972 48.972 0 0 0-.673-.05A3 3 0 0 0 15 1.5h-1.5a3 3 0 0 0-2.663 1.618c-.225.015-.45.032-.673.05C8.662 3.295 7.554 4.542 7.502 6ZM13.5 3A1.5 1.5 0 0 0 12 4.5h4.5A1.5 1.5 0 0 0 15 3h-1.5Z" clip-rule="evenodd" />
+            <path fill-rule="evenodd" d="M3 9.375C3 8.339 3.84 7.5 4.875 7.5h9.75c1.036 0 1.875.84 1.875 1.875v11.25c0 1.035-.84 1.875-1.875 1.875h-9.75A1.875 1.875 0 0 1 3 20.625V9.375ZM6 12a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H6.75a.75.75 0 0 1-.75-.75V12Zm2.25 0a.75.75 0 0 1 .75-.75h3.75a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75ZM6 15a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H6.75a.75.75 0 0 1-.75-.75V15Zm2.25 0a.75.75 0 0 1 .75-.75h3.75a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75ZM6 18a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H6.75a.75.75 0 0 1-.75-.75V18Zm2.25 0a.75.75 0 0 1 .75-.75h3.75a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />
+            </svg>
+            <span class="text-sm text-gray-800 dark:text-gray-700 group-hover:text-blue-600 dark:group-hover:text-gray-200">Compras Generales</span>
+            </button>
+        </div>
+        </form>`;
+
+      (async () => {
+        try {
+          const { data } = await axios.get("/api/librocompras");
+          const librosFilteredCompras = data.filter(
+            (libro) => libro.empresa === empresaId
+          );
+
+          librosFilteredCompras.forEach((compra) => {
+            const fechaSplit = compra.fecha.split("T")[0];
+            const calculoIva = (compra.iva * compra.base) / 100;
+            const calculoTotal = calculoIva + compra.base + compra.exento;
+            const calculoRetencion = (compra.retencion * calculoIva) / 100;
+            const tbody = document.querySelector("tbody");
+            const nuevaFila = document.createElement("tr");
+            //   nuevaFila.classList.add("flex", "flex-row");
+            nuevaFila.id = compra.id;
+            nuevaFila.innerHTML = `
+                        <th scope="col" class=" w-32 text-gray-800 font-medium px-4 py-1">
+                            ${fechaSplit}
+                        </th>
+                        <th scope="col" class=" w-32 text-gray-800 font-medium px-4 py-1">
+                            ${compra.rif}
+                        </th>
+                        <th scope="col" class="text-gray-800 font-medium px-4 py-1">
+                            ${compra.numerodocumento}
+                        </th>
+                        <th scope="col" class="text-gray-800 font-medium px-4 py-1">
+                            ${compra.documento}
+                        </th>
+                        <th scope="col" class="text-gray-800 font-medium px-4 py-1">
+                            ${compra.numerocontrol}
+                        </th>
+                        <th scope="col" class="text-gray-800 font-medium px-4 py-1">
+                            ${compra.proveedor}
+                        </th>
+                          <th scope="col" class="text-gray-800 font-medium px-4 py-1">
+                              ${compra.descripcion}
+                          </th>
+                          <th scope="col" class="text-gray-800 font-medium px-4 py-1">
+                              ${compra.tipocompra}
+                          </th>
+                          <th scope="col" class="text-gray-800 font-medium px-4 py-1">
+                              ${compra.transaccion}
+                          </th>
+                          <th scope="col" class="text-gray-800 font-medium px-4 py-1">
+                              ${compra.creditofiscal}
+                          </th>
+                          <th scope="col" class="text-gray-800 font-medium px-4 py-1">
+                              ${compra.exento}
+                          </th>
+                          <th scope="col" class="text-gray-800 font-medium px-4 py-1">
+                              ${calculoIva}
+                          </th>
+                          <th scope="col" class="text-gray-800 font-medium px-4 py-1">
+                              ${compra.base}
+                          </th>
+                          <th scope="col" class="text-gray-800 font-medium px-4 py-1">
+                              ${compra.numeroretencion}
+                          </th>
+                          <th scope="col" class="text-gray-800 font-medium px-4 py-1">
+                              ${calculoRetencion}
+                          </th>
+                          <th scope="col" class="text-gray-800 font-medium px-4 py-1">
+                              ${calculoTotal}
+                          </th>
+                        `;
+            // Append listItem
+            tbody.appendChild(nuevaFila);
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      })();
+    });
   }
 
   if (e.target.closest(".clientes")) {
@@ -1199,10 +1378,12 @@ side.addEventListener("click", async (e) => {
 
   if (e.target.closest(".asientos")) {
     const { data } = await axios.get("/api/asientos");
+    const filteredData = data.filter(
+      (asiento) => asiento.empresa === empresaId
+    );
     // const fechaSplit = data.fecha.split("T")[0];
     div.classList.add("flex-wrap", "w-full");
     div.innerHTML = ``;
-    libros.classList.add("justify-center");
     libros.innerHTML = ` 
             <form id="form-asientos" class="flex p-2">
                 <div class="sticky mt-1 bottom-0 left-0 z-50 w-full h-10 border-gray-200 dark:border-gray-600">
@@ -1236,7 +1417,7 @@ side.addEventListener("click", async (e) => {
     <h1 class="text-gray-800 text-center font-bold mt-2 mb-2 text-2xl">Libro de Asientos</h1>
     <div id="notification"></div>`;
 
-    data.forEach((asiento, index) => {
+    filteredData.forEach((asiento, index) => {
       const formId = `form-asiento-${index}`;
       const tableId = `table-asientos-${index}`;
       const tbodyId = `tbody-asientos-${index}`;
@@ -1303,9 +1484,7 @@ side.addEventListener("click", async (e) => {
     const month = String(hoy.getMonth() + 1).padStart(2, "0"); // Los meses son indexados desde 0
     const day = String(hoy.getDate()).padStart(2, "0");
     const fechaHoy = `${year}-${month}-${day}`;
-
-    const response = await axios.get("/api/asientos");
-    const nAsientos = response.data.length;
+    const nAsientos = filteredData.length;
     const nuevoNumero = nAsientos + 1;
     const nuevoNumFormato = nuevoNumero.toString().padStart(3, "0");
 
