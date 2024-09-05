@@ -3,7 +3,8 @@ const Empresa = require("../models/empresa");
 const Cliente = require("../models/cliente");
 
 clienteRouter.post("/", async (request, response) => {
-  const { nombre, rif, telefono, direccion, email, empresaId } = request.body;
+  const { nombre, rif, telefono, direccion, email, retencioniva, empresaId } =
+    request.body;
 
   const empresa = await Empresa.findById(empresaId);
 
@@ -13,6 +14,7 @@ clienteRouter.post("/", async (request, response) => {
     telefono,
     direccion,
     email,
+    retencioniva,
     empresa: empresaId,
   });
 
@@ -20,6 +22,11 @@ clienteRouter.post("/", async (request, response) => {
   empresa.clientes = empresa.clientes.concat(savedCliente._id);
   await empresa.save();
   return response.status(201).json(savedCliente);
+});
+
+clienteRouter.get("/", async (request, response) => {
+  const clientes = await Cliente.find();
+  return response.status(201).json(clientes);
 });
 
 module.exports = clienteRouter;
