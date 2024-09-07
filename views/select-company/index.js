@@ -111,6 +111,7 @@ btnRegistroEmpresa.addEventListener("click", async (e) => {
 document.addEventListener("DOMContentLoaded", async () => {
   const empresaSelect = document.getElementById("empresa-select");
   const continueBtn = document.getElementById("continue-btn");
+  continueBtn.disabled = true;
   // const preIndex = document.getElementById("pre-index");
   // const mainContent = document.getElementById("main-content");
   let empresaId = "";
@@ -131,6 +132,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Handle continue button click
   empresaSelect.addEventListener("change", async () => {
+    continueBtn.disabled = false;
+    continueBtn.classList.remove("cursor-not-allowed");
     continueBtn.addEventListener("click", async (e) => {
       empresaId = empresaSelect.value;
       if (empresaId) {
