@@ -1,5 +1,6 @@
 const sideBar = document.getElementById("side");
 const divHover = document.getElementById("hover");
+const preloader = document.getElementById("preloader");
 
 const createSideDashboard = () => {
   sideBar.style.width = "50px";
@@ -390,6 +391,23 @@ sideBar.addEventListener("mouseenter", () => {
           </ul>
       </div>
     </aside>`;
+
+  const logoutBtn = document.querySelector(".logout");
+
+  logoutBtn.addEventListener("click", async (e) => {
+    preloader.classList.add("flex", "justify-center", "items-center");
+    preloader.innerHTML = `<div class="lds-ring"><div></div><div></div><div></div><div></div></div>`;
+    setTimeout(() => {
+      preloader.classList.remove("flex", "justify-center", "items-center");
+      preloader.innerHTML = ``;
+    }, 5000);
+    try {
+      await axios.get("/api/logout");
+      window.location.href = `/login`;
+    } catch (error) {
+      console.log(error);
+    }
+  });
 });
 
 sideBar.addEventListener("mouseleave", () => {
@@ -581,6 +599,17 @@ sideBar.addEventListener("mouseleave", () => {
       </div>
     </aside>
         `;
+
+  const logoutBtn = document.querySelector(".logout");
+
+  logoutBtn.addEventListener("click", async (e) => {
+    try {
+      await axios.get("/api/logout");
+      window.location.pathname = "/login";
+    } catch (error) {
+      console.log(error);
+    }
+  });
 });
 
 if (window.location.pathname === "/dashboard2/") {

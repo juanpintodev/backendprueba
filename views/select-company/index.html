@@ -4,15 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../styles/output.css" />
+    <link rel="stylesheet" href="../select-company/index.css" />
     <!-- <script src="https://cdn.tailwindcss.com"></script> -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <title>Seleccion-Empresas</title>
   </head>
   <body>
     <div
-      class="flex flex-col justify-center items-center m-8 border-2 h-screen text-center p-8 border-gray-200 rounded-lg dark:border-gray-700"
+      id="principal"
+      class="flex flex-col justify-center items-center m-8 mt-4 border-2 h-screen text-center border-gray-200 rounded-lg dark:border-gray-700"
     >
-      <h1 class="mt-4 pt-4">Seleccione una Empresa</h1>
+      <h1 class="mt-2 pt-4">Seleccione una Empresa</h1>
       <select id="empresa-select" class="mt-4 cursor-pointer">
         <option value="" disabled selected>Select a company</option>
       </select>

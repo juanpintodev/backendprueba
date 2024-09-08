@@ -4,7 +4,7 @@ const btnRegistroEmpresa = document.getElementById("registrar-btn");
 btnRegistroEmpresa.addEventListener("click", async (e) => {
   menu.innerHTML = `<form
         id="form-empresas"
-        class="grid sm:grid-cols-1 md:gap-4 w-full bg-gray-400 rounded p-4 mt-3 gap-3"
+        class="grid sm:grid-cols-1 md:gap-4 w-full bg-gray-400 rounded p-4 gap-3"
       >
         <div>
           <label
@@ -69,6 +69,7 @@ btnRegistroEmpresa.addEventListener("click", async (e) => {
             />
           </div>
 
+          <div id="alerta"></div>
           <div class="flex w-2 mt-4">
             <button class="guardar-empresa text-white justify-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
               Guardar
@@ -82,12 +83,27 @@ btnRegistroEmpresa.addEventListener("click", async (e) => {
   if (btnGuardarEmpresa) {
     formEmpresas.addEventListener("submit", async (e) => {
       e.preventDefault();
-      try {
-        const nombre = document.getElementById("nombre").value;
-        const rif = document.getElementById("rif").value;
-        const telefono = document.getElementById("telefono").value;
-        const direccion = document.getElementById("direccion").value;
-        const email = document.getElementById("email").value;
+      const nombre = document.getElementById("nombre").value;
+      const rif = document.getElementById("rif").value;
+      const telefono = document.getElementById("telefono").value;
+      const direccion = document.getElementById("direccion").value;
+      const email = document.getElementById("email").value;
+      if (
+        nombre === "" ||
+        rif === "" ||
+        telefono === "" ||
+        direccion === "" ||
+        email === ""
+      ) {
+        const alerta = document.getElementById("alerta");
+        alerta.style.display = "block";
+        alerta.innerHTML = `<div class="mt-2 flex justify-center w-full text-white text-center bg-red-600 rounded">Debes completar todos los campos</div>`;
+        setTimeout(() => {
+          alerta.innerHTML = ``;
+          alerta.style.display = "";
+        }, 5000);
+        return;
+      } else {
         const { data } = await axios.post("/api/empresas", {
           nombre,
           rif,
@@ -96,14 +112,14 @@ btnRegistroEmpresa.addEventListener("click", async (e) => {
           email,
         });
         console.log({ data });
-      } catch (error) {
-        console.log(error);
+        formEmpresas.reset();
+        menu.style.display = "block";
+        menu.innerHTML = `<div class="flex justify-center w-full text-white text-center bg-green-400 rounded">Se han guardado los datos con exito</div>`;
+        setTimeout(() => {
+          menu.innerHTML = ``;
+          menu.style.display = "";
+        }, 5000);
       }
-      formEmpresas.reset();
-      menu.innerHTML = `<div class="flex justify-center w-full text-white text-center bg-green-400 rounded">Se han guardado los datos con exito</div>`;
-      setTimeout(() => {
-        menu.innerHTML = ``;
-      }, 5000);
     });
   }
 });
@@ -132,12 +148,19 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Handle continue button click
   empresaSelect.addEventListener("change", async () => {
+    const principal = document.getElementById("principal");
     continueBtn.disabled = false;
     continueBtn.classList.remove("cursor-not-allowed");
     continueBtn.addEventListener("click", async (e) => {
       empresaId = empresaSelect.value;
       if (empresaId) {
         console.log(empresaId);
+        principal.classList.add("flex", "justify-center", "items-center");
+        principal.innerHTML = `<div class="lds-ring"><div></div><div></div><div></div><div></div></div>`;
+        setTimeout(() => {
+          principal.classList.remove("flex", "justify-center", "items-center");
+          principal.innerHTML = ``;
+        }, 5000);
         window.location.href = `/dashboard2?empresaId=${empresaId}`;
       } else {
         alert("Porfavor selecciona una empresa");
